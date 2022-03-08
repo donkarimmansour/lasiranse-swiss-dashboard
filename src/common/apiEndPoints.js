@@ -2,7 +2,7 @@
 const Host = {
   ROOT: "http://localhost:3000",
   //BACKEND: "http://localhost:3001",
-  BACKEND: "https://apigit .compareprime.com",
+  BACKEND: "https://api.compareprime.com",
   PREFIX: "/v1/api", 
 };
 
