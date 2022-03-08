@@ -1,13 +1,16 @@
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment, lazy, Suspense, useEffect } from "react"
 import "../styles/app.css"
-import Header from "./dashboard/header"
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from "./dashboard/user/login";
-import Main from "./dashboard/main";
-import Profile from "./dashboard/user/profile";
-import Contacts from "./dashboard/contact";
-import Forgot from "./dashboard/user/forgot";
-import Index from "./index/index";
+import IndexPage from "./indexPage.js"
+
+const Header = lazy(() => import("./dashboard/header"))
+const Login = lazy(() => import("./dashboard/user/login"))
+const Main = lazy(() => import("./dashboard/main"))
+const Profile = lazy(() => import("./dashboard/user/profile"))
+const Contacts = lazy(() => import("./dashboard/contact"))
+const Forgot = lazy(() => import("./dashboard/user/forgot"))
+const Index = lazy(() => import("./index/index"))
+
 
 const setTitle = () => {
   document.title = "Comparer votre prime gratuitement"
@@ -26,19 +29,40 @@ const App = () => {
 
         <Routes>
 
-        <Route path="/*" element={<Index />} />
+        <Route path="/*" element={
+            <Suspense fallback={<IndexPage/>}>
+              <Index />
+            </Suspense>
+        } />
         
+          
 
           <Route path="/admin/*" element={
             <Fragment>
-              <Header />
+            
 
-              <Routes>
-                <Route path="/" element={<Main />} />
+              <Suspense fallback={<IndexPage/>}>
+                <Header />
+              </Suspense>
 
-                <Route path="/contacts" element={<Contacts />} />
-                <Route path="/profile" element={<Profile />} />
-              </Routes>
+
+               <Routes>
+
+
+               <Route path="/" element={<Suspense fallback={<IndexPage/>}>
+                  <Main />
+                </Suspense>} />
+
+                <Route path="/contacts" element={<Suspense fallback={<IndexPage/>}>
+                  <Contacts />
+                </Suspense>} />
+
+                <Route path="/profile" element={<Suspense fallback={<IndexPage/>}>
+                  <Profile />
+                </Suspense>} /> 
+
+
+              </Routes> 
 
 
             </Fragment>
@@ -46,10 +70,19 @@ const App = () => {
 
 
 
-      
-       
-          <Route path="/admin/forgot" element={<Forgot />} />
-          <Route path="/admin/login" element={<Login />} />
+
+
+          <Route path="/admin/forgot" element={
+            <Suspense fallback={<IndexPage />}>
+              <Forgot />
+            </Suspense>
+          } />
+
+          <Route path="/admin/login" element={
+            <Suspense fallback={<IndexPage />}>
+              <Login />
+            </Suspense>
+          } />
 
           </Routes>
     

@@ -95,7 +95,9 @@ const Forgot = () => {
                                 </div>
 
                                 <div className="input-field button">
-                                    <input disabled={(!dirty || !isValid || loading)} type="submit" value="Send" />
+                                    <div>
+                                      <input disabled={(!dirty || !isValid || loading)} type="submit" value="Send" />
+                                    </div>
                                 </div>
 
                             </Form>

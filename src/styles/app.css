@@ -1,7 +1,11 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
 #root , .app{
     width:100%
 }
-
 
 
 .lds-roller {

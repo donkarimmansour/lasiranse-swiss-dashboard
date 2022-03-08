@@ -50,6 +50,17 @@ const Login = () => {
         password: yup.string().required(t("password field is required")),
     })
 
+    const changeType = e => {
+        if(e.target.parentElement.querySelector("input").type == "password"){
+            e.target.parentElement.querySelector("input").type = "text"
+            e.target.className = "fa-solid fa-eye show-hide-pw"
+        }else {
+            e.target.parentElement.querySelector("input").type = "password"
+            e.target.className = "fa-solid fa-eye-slash show-hide-pw"
+
+        }
+    }
+
 
     return (
 
@@ -87,7 +98,7 @@ const Login = () => {
                                         <div>
                                              <Field type="password" name="password" placeholder={t("Enter your password")} required="" />
                                             <i className="fa-solid fa-lock"></i>
-                                            <i className="fa-solid fa-eye-slash show-hide-pw"></i>
+                                            <i className="fa-solid fa-eye-slash show-hide-pw" onClick={ (e)=> {changeType(e)} }></i>
                                         </div>
 
                                         <small className="input-error" style={{ display: errors.password ? "block" : "none" }} >{touched.password && errors.password}</small>
@@ -103,7 +114,9 @@ const Login = () => {
                                     </div>
 
                                     <div className="input-field button">
-                                        <input disabled={(!dirty || !isValid || loading)} type="submit" value="login now" />
+                                        <div>
+                                          <input disabled={(!dirty || !isValid || loading)} type="submit" value="login now" />
+                                        </div>
                                     </div>
 
                                 </Form>

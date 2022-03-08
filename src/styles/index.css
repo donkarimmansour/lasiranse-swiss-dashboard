@@ -300,12 +300,15 @@
       display: none;
     }
   }
-
+  .landing .image{
+    text-align: center;
+  }
   
   .landing .image img {
     position: relative;
-    width: 100%;
+    width: 65%;
     animation: up-and-down 5s linear infinite;
+
   }
 
   .landing .go-down {
@@ -661,6 +664,7 @@ box-decoration-break: clone;
   background-color: #fff;
   border-radius:  19px;
    width: 450px;
+   max-width: 450px;
    min-width: 100%;
 }
 
@@ -719,7 +723,7 @@ height: 40px;
 
 
 .form .input-field input{
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%; 
   padding: 0 35px;

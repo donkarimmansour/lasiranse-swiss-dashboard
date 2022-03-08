@@ -53,6 +53,7 @@
     margin-top: 10px;
     width: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .form .input-field div{
@@ -74,6 +75,7 @@
     transition-property: all;
     transition-duration: 0.2s;
     transition-timing-function: ease;
+    max-width: 100%;
 }
 
 .form .input-field input::placeholder{
