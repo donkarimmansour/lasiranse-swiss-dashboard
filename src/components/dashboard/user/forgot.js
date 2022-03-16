@@ -1,6 +1,5 @@
 import React, {  useEffect, Fragment } from "react"
 import { useNavigate , Link } from "react-router-dom"
-import { useTranslation } from 'react-i18next';
 import { Field, Formik, Form } from "formik"
 import { isAuthentication } from "../../../shared/auth"
 import { loader } from "../../../shared/elements"
@@ -17,13 +16,11 @@ const Forgot = () => {
 
     useEffect(() => {
         if (isAuthentication()) {
-            navigate("/admin") 
+            navigate("/") 
         }
         dispatch({ type: CLEAR_MESSAGE })
 
     }, [])
-
-    const { t } = useTranslation(); 
 
     const { loading } = useSelector(state => state.loading)
     const { errorMsg , successMsg } = useSelector(state => state.message)
@@ -37,20 +34,20 @@ const Forgot = () => {
     }
 
     const  ForgotValidator = yup.object().shape({
-        email: yup.string().required(t("email field is required")).email("email must be email"),
+        email: yup.string().required("email field is required").email("email must be email"),
     
     })
 
     
     const Done = () => <Fragment>
-        <div className="confirmed" style={{ display: "block" }} id="confirmed">
-            <h5>{t("Done")}!</h5>
-            <p>{t("new Sent password")}</p>
+        <div className="pupup" style={{ display: "block" }}>
+            <h5>Done!</h5>
+            <p>new Sent password</p>
             <button onClick={() => {
                 dispatch({ type: CLEAR_MESSAGE })
-                navigate("/admin/login")
+                navigate("/login")
             }
-            } >{t("OK")}</button>
+            } >OK</button>
         </div></Fragment>
  
  return (
@@ -62,7 +59,7 @@ const Forgot = () => {
 
         {/* <!-- start login form --> */}
         <div className="form">
-            <span className="title">{t("Forgot Password?")}</span>
+            <span className="title">Forgot Password?</span>
 
             {
                 <Formik
@@ -75,9 +72,9 @@ const Forgot = () => {
 
                             <Form>
                                 <div className="input-field">
-                                    <label>{t("Email Address")}*</label>
+                                    <label>Email Address*</label>
                                     <div>
-                                         <Field type="text" name="email" placeholder={t("Enter your email")} required="" />
+                                         <Field type="text" name="email" placeholder="Enter your email" required="" />
                                         <i className="fa-solid fa-envelope"></i>
                                     </div>
                                    
@@ -87,11 +84,11 @@ const Forgot = () => {
               
 
                                 <div className="form-error">
-                                  {errorMsg && <span>{ typeof errorMsg == "string" ? t(errorMsg) : t(errorMsg[0])}</span>}
+                                  {errorMsg && <span>{ typeof errorMsg == "string" ? errorMsg : errorMsg[0]}</span>}
                                 </div>
 
                                 <div > 
-                                    <Link to="/admin/login">{t("Login?")}</Link>
+                                    <Link to="/admin/login">Login?</Link>
                                 </div>
 
                                 <div className="input-field button">

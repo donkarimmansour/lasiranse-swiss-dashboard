@@ -8,6 +8,10 @@ const config = {
     
 }
 
+const SignupAuth = async (data) => {
+    return  await axios.post(`${Host.BACKEND}${ApiEndpoints.UserEndpoints.route}${ApiEndpoints.UserEndpoints.signup}` , data , config)
+}
+   
 const LoginAuth = async (data) => {
     return  await  axios.post(`${Host.BACKEND}${ApiEndpoints.UserEndpoints.route}${ApiEndpoints.UserEndpoints.login}` , data , config)
 }
@@ -17,6 +21,6 @@ const ForgotAuth = async (data) => {
 }
 
 
-export { LoginAuth , ForgotAuth }
+export { LoginAuth , ForgotAuth , SignupAuth }
 
 

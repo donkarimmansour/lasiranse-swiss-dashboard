@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { useTranslation } from 'react-i18next';
 import * as yup from 'yup'
 import { Field, Formik, Form } from "formik"
 import { isAuthentication } from "../../../shared/auth"
@@ -18,12 +17,11 @@ const Login = () => {
         dispatch({ type: CLEAR_MESSAGE })
 
         if (isAuthentication()) {
-            navigate("/admin")
+            navigate("/")
         }
 
     }, [])
 
-    const { t } = useTranslation();
     const { loading } = useSelector(state => state.loading)
     const { errorMsg , successMsg } = useSelector(state => state.message)
 
@@ -46,8 +44,8 @@ const Login = () => {
     }
 
     const  LoginValidator = yup.object().shape({
-        email: yup.string().required(t("email field is required")).email("email must be email"),
-        password: yup.string().required(t("password field is required")),
+        email: yup.string().required("email field is required").email("email must be email"),
+        password: yup.string().required("password field is required"),
     })
 
     const changeType = e => {
@@ -70,7 +68,7 @@ const Login = () => {
 
             {/* <!-- start login form --> */} 
             <div className="form">
-                <span className="title">{t("Login")}</span>
+                <span className="title">Login</span>
 
                 {
                     <Formik
@@ -83,9 +81,9 @@ const Login = () => {
 
                                 <Form>
                                     <div className="input-field">
-                                        <label>{t("Email Address")}*</label>
+                                        <label>Email Address*</label>
                                         <div>
-                                             <Field type="text" name="email" placeholder={t("Enter your email")} required="" />
+                                             <Field type="text" name="email" placeholder="Enter your email" required="" />
                                             <i className="fa-solid fa-envelope"></i>
                                         </div>
                                        
@@ -93,10 +91,10 @@ const Login = () => {
 
                                     </div>
                                     <div className="input-field">
-                                        <label>{t("password")}*</label>
+                                        <label>password*</label>
 
                                         <div>
-                                             <Field type="password" name="password" placeholder={t("Enter your password")} required="" />
+                                             <Field type="password" name="password" placeholder="Enter your password" required="" />
                                             <i className="fa-solid fa-lock"></i>
                                             <i className="fa-solid fa-eye-slash show-hide-pw" onClick={ (e)=> {changeType(e)} }></i>
                                         </div>
@@ -106,17 +104,23 @@ const Login = () => {
                                     </div>
 
                                     <div className="form-error">
-                                      {errorMsg && <span>{ typeof errorMsg == "string" ? t(errorMsg) : t(errorMsg[0])}</span>}
+                                      {errorMsg && <span>{ typeof errorMsg == "string" ? errorMsg : errorMsg[0]}</span>}
                                     </div>
 
                                     <div > 
-                                        <Link to="/admin/forgot">{t("Forgot Password?")}</Link>
+                                        <Link to="/forgot">Forgot Password?"</Link>
                                     </div>
 
                                     <div className="input-field button">
                                         <div>
                                           <input disabled={(!dirty || !isValid || loading)} type="submit" value="login now" />
                                         </div>
+                                    </div>
+
+                                    <div className="login-signup">
+                                        <span className="text">i'm a member?
+                                            <Link to="/signup" className="text login-text">signup new</Link>
+                                        </span>
                                     </div>
 
                                 </Form>

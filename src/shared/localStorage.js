@@ -4,7 +4,11 @@ const setLocalStorage = (key , value) => {
 }
 
 const getLocalStorage = (key) => {
-   return JSON.parse(localStorage.getItem(key)) 
+    try {
+        return JSON.parse(localStorage.getItem(key))
+    } catch (err) {
+        return null
+    }
 }
 
 const removeLocalStorage = (key) => {

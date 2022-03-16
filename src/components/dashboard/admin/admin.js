@@ -1,54 +1,52 @@
 import React, { Fragment, useEffect, useState } from "react"
-import { useTranslation } from 'react-i18next';
 import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import "../../styles/main.css";
-import { CLEAR_MESSAGE } from "../../redux/constans/message";
-import { delete_contact, get_all_contacts,get_contact_Count_pag, view_all_contact, view_contact } from "../../redux/actions/contact";
-import { loader } from "../../shared/elements";
-import { extractDesk } from "../../shared/funs";
+import "../../../styles/main.css";
+import { CLEAR_MESSAGE } from "../../../redux/constans/message";
+import { delete_admin, get_all_admins, get_admin_Count_pag  } from "../../../redux/actions/user";
+import { loader } from "../../../shared/elements";
+import { convertJsonToExcel, extractDesk } from "../../../shared/funs";
 import myClassNames from 'classnames';
-import { getCookie } from "../../shared/cookie";
-import { isAuthentication } from "../../shared/auth";
+import { getCookie } from "../../../shared/cookie";
+import { isAuthentication } from "../../../shared/auth";
+import { List } from "../../../services/user";
+import { START_LOADING, STOP_LOADING } from "../../../redux/constans/loading";
 
-
-const Contacts = () => {
+const Admin = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
         dispatch({ type: CLEAR_MESSAGE })
 
         if (!isAuthentication()) {
-            navigate("/admin/login")
+            navigate("/login")
         }
 
     }, [])
 
     const [Count , setCount] = useState(0)
     const [Pages, setPages] = useState({ pages: ["", "", ""], currentPage: 1 })
-    const [Contacts , setContacts] = useState(0)
-    const [showDel , setshowDel] = useState(false)
-    const [Contact , setContact] = useState({})
+    const [Admins , setAdmins] = useState([])
+
 
     const dispatch = useDispatch() 
-    const { t } = useTranslation();
     
     const { loading } = useSelector(state => state.loading)
-    const { count_pag , all_contacts } = useSelector(state => state.contact)
+    const { count_pag , admins } = useSelector(state => state.user)
 
     const authorization = isAuthentication() ? { "Authorization": `bearer ${getCookie("token")}` } : [{ _id: "" }]
 
 
     useEffect(() => {
-          const skip = Pages.currentPage == 1 ? 0 : ((Pages.currentPage - 1) * limit)
-        dispatch(get_contact_Count_pag({ filter : '{"name" : { "$ne": "xxxlxxx" }}' }  , authorization))
-        dispatch(get_all_contacts({ filter : '{"name" : { "$ne": "xxxlxxx" }}'  , limit  , skip , sort : '{"_id" : -1}'}  , authorization))
+        const skip = Pages.currentPage == 1 ? 0 : ((Pages.currentPage - 1) * limit)
+        dispatch(get_admin_Count_pag({ filter : '{"name" : { "$ne": "xxxlxxx" }}' }  , authorization))
+        dispatch(get_all_admins({ filter : '{"name" : { "$ne": "xxxlxxx" }}'  , limit  , skip , sort : '{"_id" : -1}'}  , authorization))
     }, [dispatch , Pages.currentPage])
 
     useEffect(() => {
-              setContacts(all_contacts)
+              setAdmins(admins)
               setCount(count_pag)
-    }, [ count_pag , all_contacts])
+    }, [ count_pag , admins])
 
  
     useEffect(() => {
@@ -61,40 +59,8 @@ const Contacts = () => {
     }, [Count])
 
 
-    const viewContact = (id, contact) => {
-        dispatch(view_all_contact(id , authorization))  
-  
-        setContact(contact)
-        setshowDel(true)
-     }
-  
-     const deleteContact = (id ) => {
-         const conf = window.confirm(t("Are you sure"))
-          if(conf){
-              dispatch(delete_contact(id , authorization))
-          }
-     }
-  
-       const View = () => 
-       
-       Contact && Contact.fullname && <Fragment>
-          
-          <div className="confirmed" style={{ display: "block" }} id="confirmed">
-              <h5>Contact</h5>
-              <p style={{padding : "3px 0"}}>fullname : {Contact.fullname}</p>
-              <p style={{padding : "3px 0"}}>email : {Contact.email}</p>
-              <p style={{padding : "3px 0"}}>phone : {Contact.phone}</p>
-              <p style={{padding : "3px 0"}}>naissance : {Contact.naissance}</p>
-              <p style={{padding : "3px 0"}}>franchise : {Contact.franchise}</p>
-              <p style={{padding : "3px 0"}}>fullname : {Contact.fullname}</p>
-              <p style={{padding : "3px 0"}}>npa : {Contact.npa}</p> 
-              <button onClick={() => {
-                  setshowDel(false)
-              }
-              } >{t("OK")}</button>
-          </div></Fragment>
-  
-
+   
+    
 
    
    const limit = 20
@@ -157,50 +123,104 @@ const Contacts = () => {
        else if (current == "next") setPages({ ...Pages, currentPage: Pages.currentPage + 1 })
        else setPages({ ...Pages, currentPage: current })
    }
+
+    const addUser = () => {
+        navigate(`/adminprofile/new`)
+    }
+
+    const editAdmin = (id) => {
+        navigate(`/adminprofile/${id}`)
+    }
+
+    const viewAdmin = (admin) => {
+        convertJsonToExcel("admin" , [admin])
+    }
+
+    const deleteAdmin = (id) => {
+        const conf = window.confirm("Are you sure")
+        if (conf) {
+            dispatch(delete_admin(id, authorization))
+        }
+    }
+  
+
+   const exportData = () => {
+    dispatch({ type: START_LOADING })
+
+    List({ filter : '{"name" : { "$ne": "xxxlxxx" }}' , sort : '{"_id" : -1}' } , authorization).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            convertJsonToExcel("admins" , data.msg)
+        } else {
+            console.log("get contacts err ", data.msg);
+            alert(data.msg)
+            dispatch({ type: STOP_LOADING })
+        }
+
+    }).catch(err => {
+        console.log("get contacts api err ", err);
+        alert("something went wrong please try again")
+        dispatch({ type: STOP_LOADING })
+    })
+   }
+
+
     return (
 
         <Fragment> 
             <main>
 
             {loading && loader()}
-            {showDel && View()}
 
+            {admins && Admins && Admins.length > 0 &&
+              <div className="export-data">
+                  <button onClick={exportData}>Export Data</button>
+                  <button onClick={addUser}>add user</button>
 
-                {all_contacts && Contacts && Contacts.length > 0 &&
+              </div>
+            }
+
+                {admins && Admins && Admins.length > 0 &&
 
                     <div className="table">
-                        <table>
+                        <table> 
                             <thead>
                                 <tr>
                                     <th>Fullname</th>
                                     <th>Email</th>
-                                    <th>phone</th>
-                                    <th>Naissance</th>
-                                    <th>Franchise</th>
-                                    <th>NPA</th>
-                                    <th>viewed</th>
+                                    <th>Activated</th>
+                                    <th>Suspended</th>
+                                    <th>StartAt</th>
+                                    <th>EndAt</th>
+                                    <th>Quantity</th>
+                                    <th>Loan</th>
+                                    <th>Rule</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                             {
-                                Contacts.map((contact, ci) => { 
+                                Admins.map((admin, ci) => {
                                     return (
                                         <tr key={ci}>
-                                            <td>{extractDesk(contact.fullname , 10)}</td>
-                                            <td>{extractDesk(contact.email , 10)}</td>
-                                            <td>{extractDesk(contact.phone , 10)}</td>
-                                            <td>{extractDesk(contact.naissance , 10)}</td>
-                                            <td>{extractDesk(contact.franchise , 10)}</td>
-                                            <td>{extractDesk(contact.npa , 10)}</td>
-                                            <td>{extractDesk(contact.viewed ? "yes" : "no" , 10)}</td>
-                                            <td><button className="view" href="" onClick={() => {viewContact(contact._id , contact)}}  >view</button>
-                                             <button className="delete" href=""  onClick={() => {deleteContact(contact._id)}}  >delete</button></td>
+                                            <td>{`${admin.firstname} ${admin.lastname}`}</td>
+                                            <td>{admin.email}</td>
+                                            <td>{admin.isAccountActivated ? "yes" : "no"}</td>
+                                            <td>{admin.isAccountSuspended ? "yes" : "no"}</td>
+                                            <td>{new Date(admin.startAt).getDate() + "/" + (new Date(admin.startAt).getMonth() +1) + "/" + new Date(admin.startAt).getFullYear()}</td>
+                                            <td>{new Date(admin.endAt).getDate() + "/" + (new Date(admin.endAt).getMonth() +1) + "/" + new Date(admin.endAt).getFullYear()}</td>
+                                            <td>{admin.quantity}</td>
+                                            <td>{admin.loan}</td>
+                                            <td>{admin.rule}</td>                
+                                            <td><button className="edit"  onClick={() => {editAdmin(admin._id )}}  >edit</button>
+                                              <button className="view"  onClick={() => {viewAdmin( admin)}}  >view</button>
+                                             <button className="delete"   onClick={() => {deleteAdmin(admin._id)}}>delete</button></td>
                                         </tr>
                                     )
                                 })
-                            }
+                            } 
                                
                              
                         
@@ -223,4 +243,4 @@ const Contacts = () => {
         </Fragment>
     );
 }
-export default Contacts;
+export default Admin;

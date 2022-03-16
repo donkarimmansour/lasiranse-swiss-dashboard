@@ -12,14 +12,14 @@ const IndexPage = () => {
   },[])
  
   return (
-
-    <div className="index-loader">
-          <div className="loader">
-              <div className="circle"></div>
-              <div className="circle"></div>
-          </div>
-    </div>
-
+    <main>
+      <div className="index-loader">
+        <div className="loader">
+          <div className="circle"></div>
+          <div className="circle"></div>
+        </div>
+      </div>
+    </main>
   );
 }
 

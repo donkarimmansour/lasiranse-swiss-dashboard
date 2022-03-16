@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 .login-wrapper{
-    height: 100vh;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,3 +151,19 @@
     padding: 10px 20px;
     display: inline-block;
 }
+
+
+.form .login-signup { 
+    margin-top: 10px;
+    text-align: center;
+} 
+
+.form .login-signup .text{ 
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+.form .login-signup .signup-text{ 
+    text-decoration: none;
+}
+  

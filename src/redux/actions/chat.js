@@ -1,11 +1,36 @@
 
-import { COUNT , UPDATE_CONTACT, GET_CONTACTS , COUNT_NAV , DELETE , VIEW, GET_ALl_CONTACTS, VIEW_ALL, COUNT_PAG } from "../constans/contact"
-import { SHOW_ERROR_MESSAGE, CLEAR_MESSAGE } from "../constans/message"
+import { REPLY_CHAT, COUNT_CHAT, GET_CHAT, COUNT_CHAT_PAG, DELETE_CHAT, CREATE_CHAT , GET_SINGLE_CHAT} from "../constans/chat"
+import { SHOW_ERROR_MESSAGE, SHOW_SUCCESS_MESSAGE, CLEAR_MESSAGE } from "../constans/message"
 import { START_LOADING, STOP_LOADING } from "../constans/loading"
-import { Count, Delete, List, Update, View } from "../../services/contact"
+import {  Count, Delete, Create, List, Reply } from "../../services/chat"
 
 
-const get_contact_Count = (filter , con) => async dispatch => {
+
+const get_chats_Count_pag = (filter , con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+    Count(filter , con).then(({ data }) => {
+
+    if (!data.err) {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_CHAT_PAG , payload : data.msg
+        })
+    } else {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_CHAT_PAG , payload : -1
+        })
+    }
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+
+    })
+}
+
+
+const get_chats_Count = (filter , con) => async dispatch => {
     dispatch({ type: START_LOADING })
     Count(filter , con).then(({ data }) => {
 
@@ -13,87 +38,134 @@ const get_contact_Count = (filter , con) => async dispatch => {
     if (!data.err) {
         dispatch({ type: STOP_LOADING })
         dispatch({
-            type: COUNT , payload : data.msg
+            type: COUNT_CHAT , payload : data.msg
         })
     } else {
         dispatch({ type: STOP_LOADING })
         dispatch({
-            type: COUNT , payload : -1
-        })
-    }
-    }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-    })
-}
-
-
-
-
-const get_contact_Count_pag = (filter , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
-    Count(filter , con).then(({ data }) => {
-
-    if (!data.err) {
-        dispatch({ type: STOP_LOADING })
-        dispatch({
-            type: COUNT_PAG , payload : data.msg
-        })
-    } else {
-        dispatch({ type: STOP_LOADING })
-        dispatch({
-            type: COUNT , payload : -1
+            type: COUNT_CHAT , payload : -1
         })
     }
 
-    }).catch(err => {
+  }).catch(err => {
         console.log("get orders api err ", err);
         dispatch({ type: STOP_LOADING })
-
     })
 }
 
-const get_contact_Count_nav = (filter , con) => async dispatch => {
+
+
+
+const get_all_chats = (filter , con) => async dispatch => {
     dispatch({ type: START_LOADING })
-    Count(filter , con).then(({ data }) => {
-
-            dispatch({ type: STOP_LOADING })
-            dispatch({
-                type: COUNT_NAV , payload : data.msg
-            })
-
-    }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-
-    })
-}
-
-const get_contact = (filter , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
-
     List(filter , con).then(({ data }) => {
 
         if (!data.err) {
             dispatch({ type: STOP_LOADING })
             dispatch({
-                type: GET_CONTACTS , payload : data.msg
+                type: GET_CHAT , payload : data.msg
             })
-            dispatch({ type: CLEAR_MESSAGE})
+            dispatch({ type: CLEAR_MESSAGE })
         } else {
             dispatch({ type: STOP_LOADING })
             dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
         }
 
-    
-        }).catch(err => {
+    }).catch(err => {
         console.log("get orders api err ", err);
         dispatch({ type: STOP_LOADING })
+        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
+
 
     })
 }
 
-const delete_contact = (id, con) => async dispatch => {
+const get_chat = (filter , con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+    List(filter , con).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            dispatch({
+                type: GET_SINGLE_CHAT , payload : data.msg
+            })
+            dispatch({ type: CLEAR_MESSAGE })
+        } else {
+            dispatch({ type: STOP_LOADING })
+            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
+        }
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
+
+
+    })
+}
+
+const ReplyChat = (id , values , authorization) => async dispatch => {
+    dispatch({ type: START_LOADING })
+
+    Reply(id , values , authorization).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            dispatch({
+                type: REPLY_CHAT , payload : data.msg
+            })
+            dispatch({ type: CLEAR_MESSAGE})
+            dispatch({ type: SHOW_SUCCESS_MESSAGE, payload : "updated" })
+            
+        } else {
+            
+            dispatch({ type: STOP_LOADING })
+            dispatch({ type: SHOW_ERROR_MESSAGE, payload: data.msg })
+        }
+
+      //  console.log(data);
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
+
+    })
+}
+
+const createChat = (values , authorization) => async dispatch => {
+    dispatch({ type: START_LOADING })
+
+    Create(values , authorization).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            dispatch({
+                type: CREATE_CHAT , payload : data.msg
+            })
+            dispatch({ type: CLEAR_MESSAGE})
+            dispatch({ type: SHOW_SUCCESS_MESSAGE, payload : "created" })
+            
+        } else {
+            
+            dispatch({ type: STOP_LOADING })
+            dispatch({ type: SHOW_ERROR_MESSAGE, payload: data.msg })
+        }
+
+      //  console.log(data);
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
+
+    })
+}
+
+
+
+
+const delete_chat = (id, con) => async dispatch => {
     dispatch({ type: START_LOADING })
 
     Delete(id, con).then(({ data }) => {
@@ -101,7 +173,7 @@ const delete_contact = (id, con) => async dispatch => {
         if (!data.err) {
             dispatch({ type: STOP_LOADING })
             dispatch({
-                type: DELETE , payload : id
+                type: DELETE_CHAT , payload : id
             })
             dispatch({ type: CLEAR_MESSAGE })
         } else {
@@ -116,105 +188,12 @@ const delete_contact = (id, con) => async dispatch => {
     })
 }
 
-const update_contact = (id , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
 
-    Update(id , con).then(({ data }) => {
-
-        if (!data.err) {
-            dispatch({ type: STOP_LOADING })
-            dispatch({
-                type: UPDATE_CONTACT , payload : id
-            })
-            dispatch({ type: CLEAR_MESSAGE})
-        } else {
-            dispatch({ type: STOP_LOADING })
-            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
-        }
-            
-        }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
-
-    })
-}
-const view_contact = (id , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
-
-    View(id , con).then(({ data }) => {
-
-        if (!data.err) {
-            dispatch({ type: STOP_LOADING })
-            dispatch({
-                type: VIEW , payload : id
-            })
-            dispatch({ type: CLEAR_MESSAGE})
-        } else {
-            dispatch({ type: STOP_LOADING })
-            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
-        }
-            
-        }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
-
-    })
-}
-
-const view_all_contact = (id , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
-
-    View(id , con).then(({ data }) => {
-
-        if (!data.err) {
-            dispatch({ type: STOP_LOADING })
-            dispatch({
-                type: VIEW_ALL , payload : id
-            })
-            dispatch({ type: CLEAR_MESSAGE})
-        } else {
-            dispatch({ type: STOP_LOADING })
-            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
-        }
-            
-        }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
-
-    })
-}
-
-const get_all_contacts = (filter , con) => async dispatch => {
-    dispatch({ type: START_LOADING })
-    List(filter , con).then(({ data }) => {
-
-        if (!data.err) {
-            dispatch({ type: STOP_LOADING })
-            dispatch({
-                type: GET_ALl_CONTACTS , payload : data.msg
-            })
-            dispatch({ type: CLEAR_MESSAGE })
-        } else {
-            dispatch({ type: STOP_LOADING })
-            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
-        }
-
-    }).catch(err => {
-        console.log("get orders api err ", err);
-        dispatch({ type: STOP_LOADING })
-        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
-
-
-    })
-}
 
 
 export {
-   get_contact_Count , get_contact , get_contact_Count_nav , view_contact ,
-    delete_contact , get_all_contacts , get_contact_Count_pag , 
-    view_all_contact , update_contact
+     get_chats_Count , get_chats_Count_pag , get_all_chats ,
+      get_chat ,  delete_chat , createChat , ReplyChat
 }
 
+ 

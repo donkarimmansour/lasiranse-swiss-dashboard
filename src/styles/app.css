@@ -99,9 +99,9 @@ body{
   
 
 
-  .confirmed {
+  .pupup {
     margin: 0 auto;
-    width: 300px;
+    width: 500px;
     background: #fff;
     border: 1px solid #ccc;
     padding: 30px;
@@ -112,19 +112,21 @@ body{
     left: 50%;
     box-shadow:0 0 10px rgba(0,0,0,0.4);
     font-family: 'Oswald', sans-serif;
-    z-index: 99;
+    z-index: 100;
 }
-.confirmed h5 {
+.pupup h5 {
     font-size: 50px;
     margin: 0px;
     color: #4CAF50;
 }
-.confirmed p {
+.pupup p {
     font-size: 20px;
-    padding: 20px 0;
+    padding: 3px 0;
     font-weight: 300;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
-.confirmed button {
+.pupup button {
     background: #4CAF50;
     border-color: #4CAF50;
     color: #fff;
@@ -132,8 +134,28 @@ body{
     padding: 8px 45px;
     border: 1px solid #4CAF50;
     border-radius: 4px;
+    cursor: pointer;
 }
 
+
+@media (max-width : 600px) {
+  .pupup{
+    width: 400px;
+  }
+  .pupup h5{
+    font-size: 30px;
+  }
+}
+
+@media (max-width : 450px) {
+  .pupup{
+    width: 90%;
+  }
+
+  .pupup h5{
+    font-size: 20px;
+  }
+}
 
 /* width */
 ::-webkit-scrollbar {

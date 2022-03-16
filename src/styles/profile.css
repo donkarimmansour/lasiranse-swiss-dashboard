@@ -76,11 +76,24 @@ form .user-details .input-box{
   margin-bottom: 15px;
   width: calc(100% / 2 - 20px);
 }
+
+form .user-details .input-box.textarea{
+  width: calc(100%);
+}
+
 form .input-box span.details{
   display: block;
   font-weight: 500;
   margin-bottom: 5px;
 }
+.user-details .input-box textarea {
+  padding: 5px;
+  overflow: visible;
+  resize: both;
+  max-width: 100%;
+  width: 100%;
+}
+.user-details .input-box textarea ,
 .user-details .input-box input{
   height: 45px;
   width: 100%;
@@ -92,7 +105,9 @@ form .input-box span.details{
   border-bottom-width: 2px;
   transition: all 0.3s ease;
 }
+.user-details .input-box textarea:focus,
 .user-details .input-box input:focus,
+.user-details .input-box textarea:valid ,
 .user-details .input-box input:valid{
   border-color: #9b59b6;
 }
@@ -120,8 +135,7 @@ form .rule-details .rule-title{
   border: 5px solid transparent;
   transition: all 0.3s ease;
 }
- #admin:checked ~ .rules label .one,
- #supadmin:checked ~ .rules label .two{
+ input:checked +  label .btn{
    background: #9b59b6;
    border-color: #d9d9d9;
  }
@@ -130,7 +144,8 @@ form .rule-details .rule-title{
  }
  form .button{
    height: 45px;
-   margin: 35px 0
+   margin: 35px 0;
+   width: 100%;
  }
  form .button input{
    height: 100%;
@@ -147,6 +162,10 @@ form .rule-details .rule-title{
  }
  form .button input:hover{
   background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+  }
+
+  form .rule-details{
+    width: 100%;
   }
 @media(max-width: 584px) {
     .pform {
@@ -180,4 +199,11 @@ form .rule-details .rule-title{
   color: #db4040;
   padding: 10px 20px;
   display: inline-block;
+}
+
+.input-error{ 
+  font-size: 0.9em; 
+  color: #db4040;
+  display: none;
+  padding: 5px 0px 10px 0px;
 }

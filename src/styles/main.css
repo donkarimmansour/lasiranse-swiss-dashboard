@@ -51,9 +51,12 @@ td button {
 
 td button.delete {
     background-color: tomato;
-
-
 }
+
+td button.view {
+    background-color: #0bf3b9;
+}
+
 /* //   Color alternating rows */
 tr:nth-child(even) {
     background-color: #f3f8fe;
@@ -64,7 +67,7 @@ tr:nth-child(even) {
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(1 , minmax(100px , 1fr));
+    grid-template-columns: repeat(3 , minmax(100px , 1fr));
     grid-gap: 30px;
 }
 .cardbox .card {
@@ -289,4 +292,37 @@ tr:nth-child(even) {
 }
 
 
+}
+
+.export-data{
+ text-align: left;
+ margin-left: 10px;
+ margin-top: 10px;
+}
+
+.export-data  button{
+    background-color: #2c9162;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 3px 10px 0 #ccc;
+    text-decoration: none;
+    text-transform: capitalize;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.export-data  button:hover{
+    background-color: #198754;
+}
+
+.export-data  button:last-of-type{
+    margin-left: 5px;
+    background-color: #2196f3;
+}
+
+.export-data  button:last-of-type:hover{
+    background-color: #0b8bf3;
 }

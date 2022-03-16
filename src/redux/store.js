@@ -6,6 +6,7 @@ import messageReducer from './reducers/message';
 import userReducer from './reducers/user';
 import contactReducer from './reducers/contact';
 import fileReducer from './reducers/file';
+import chatReducer from './reducers/chat';
 
 
 const middlewares = [thunk]
@@ -16,6 +17,7 @@ const reducer = combineReducers({
     user : userReducer ,
     contact : contactReducer ,
     file : fileReducer ,
+    chat : chatReducer ,
 })
 
 const initialState = {}

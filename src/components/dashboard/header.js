@@ -15,7 +15,7 @@ const Header = () => {
 
    useEffect(() => { 
       if (!isAuthentication()) {
-         navigate("/admin/login")
+         navigate("/login")
          return
      }
 
@@ -25,7 +25,6 @@ const Header = () => {
    const [Contact , setContact] = useState(0)
 
    const dispatch = useDispatch() 
-   const { t, i18n } = useTranslation();
 
    const { count_nav  } = useSelector(state => state.contact)
 
@@ -33,13 +32,15 @@ const Header = () => {
    const user = localStorage.getItem("user") ? getLocalStorage("user") : [{ _id: "" }]
 
    useEffect(() => {
-       dispatch(get_contact_Count_nav( { filter : '{ "viewed" : false }' } , authorization))       
+      if(user.rule == "admin"){
+         dispatch(get_contact_Count_nav( { filter : JSON.stringify({ used: true, user_id: user._id , viewed : false}) } , authorization))       
+      }
    }, [dispatch])
 
    useEffect(() => {
       setContact(count_nav)
    }, [count_nav])
-
+ 
 
 
    const toggleSide = () => {
@@ -77,9 +78,17 @@ const Header = () => {
                </li>
 
                <li>
-                  <Link to="/admin/contacts">
+                  <Link to="/contacts">
                    <i className="fa-solid fa-id-card"></i>
                    <span className="link_name">Contacts</span>
+                  </Link>
+
+               </li>
+
+               <li>
+                  <Link to="/chats">
+                     <i className="fa-solid fa-comment"></i>
+                      <span className="link_name">Tacket</span>
                   </Link>
 
                </li>
@@ -97,12 +106,16 @@ const Header = () => {
                   {/* <!-- sub menu --> */}
                   <ul className="sub-menu">
                      <li><a className="link_name" href="#">Admin</a></li>
-                     <li><Link to="/admin/profile">Profile</Link></li>
+                     <li><Link to="/profile">Profile</Link></li>
+
+                     { user.rule !== "admin" && <li><Link to="/admin">Admins</Link></li>  }
+
+                     
                      <li><button className="dropdown-item" style={{all : "unset" , color : "#fff" , cursor : "pointer"}} onClick={() => {
                         Logout(() => {
-                           navigate("/admin/login")
+                           navigate("/login")
                         })
-                     }}>{t("Logout")}</button></li>
+                     }}>Logout</button></li>
                   </ul>
 
                </li>
@@ -125,7 +138,7 @@ const Header = () => {
 
                      <i className='fa-solid fa-arrow-right-from-bracket' onClick={() => {
                         Logout(() => {
-                           navigate("/admin/login")
+                           navigate("/login")
                         })
                      }}></i>
 
@@ -146,13 +159,14 @@ const Header = () => {
             <i className="fa-solid fa-list sw-menu" onClick={(e) => {toggleSide(e)}}></i>
 
             <div className="extra">
-
-
-
-               <div className="notifications">
+               
+               {user.rule == "admin" &&
+                  <div className="notifications">
                      <i className="fa-solid fa-bell"></i>
                      <span>{Contact}</span>
-               </div>
+                  </div>
+               }
+               
 
 
             </div>

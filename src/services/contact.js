@@ -7,11 +7,6 @@ const config = {
     }  
 }
 
-const Create = async (data ) => {
-
-  return  await  axios.post(`${Host.BACKEND}${ApiEndpoints.contactEndpoints.route}${ApiEndpoints.contactEndpoints.create}` 
-  , data , { headers :  {...config.headers } })
-} 
 
 const Delete = async (id , con ) => {
   return  await  axios.delete(`${Host.BACKEND}${ApiEndpoints.contactEndpoints.route}${ApiEndpoints.contactEndpoints.delete}/${id}`, { headers : {...config.headers , ...con } } )
@@ -20,6 +15,11 @@ const Delete = async (id , con ) => {
 const View = async (id , con ) => {
   return  await  axios.put(`${Host.BACKEND}${ApiEndpoints.contactEndpoints.route}${ApiEndpoints.contactEndpoints.view}/${id}`, {}, { headers : {...config.headers , ...con } } )
 }
+
+const Update = async (id , con ) => {
+  return  await  axios.put(`${Host.BACKEND}${ApiEndpoints.contactEndpoints.route}${ApiEndpoints.contactEndpoints.update}/${id}`, {}, { headers : {...config.headers , ...con } } )
+}
+
 
 const Count = async (filter , con ) => {
   return  await  axios.get(`${Host.BACKEND}${ApiEndpoints.contactEndpoints.route}${ApiEndpoints.contactEndpoints.count}`, { headers : {...config.headers , ...con } , params : {...filter} } )
@@ -30,5 +30,5 @@ const List = async (filter , con ) => {
 }
 
 export {
- Create , Count , List , View , Delete
+  Count , List , View , Delete , Update
 }

@@ -23,7 +23,7 @@ const Profile = () => {
         dispatch({ type: CLEAR_MESSAGE })
 
         if (!isAuthentication()) {
-            navigate("/admin")
+            navigate("/login")
         }
 
         setInitial({
