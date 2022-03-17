@@ -70,7 +70,7 @@ const Header = () => {
                {/* <!-- normal menu-item --> */}
 
                <li>
-                  <Link to="/admin">
+                  <Link to="/">
                      <i className="fa-solid fa-chart-line"></i>
                      <span className="link_name">Dashboard</span>
                   </Link>
@@ -134,6 +134,7 @@ const Header = () => {
 
                      <div className="name-job">
                         <div className="profile_name">{user.firstname}{" "}{user.lastname}</div>
+                        <div className="job">{user.rule}</div>
                      </div>
 
                      <i className='fa-solid fa-arrow-right-from-bracket' onClick={() => {

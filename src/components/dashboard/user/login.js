@@ -28,7 +28,7 @@ const Login = () => {
 
     useEffect(() => {
         if (successMsg === "okey") {
-           navigate("/admin")
+           navigate("/")
         }
     }, [successMsg])
 

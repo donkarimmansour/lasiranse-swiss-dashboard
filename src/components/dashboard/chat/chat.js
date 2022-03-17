@@ -166,7 +166,7 @@ const Chat = () => {
                                                 {errorMsg && <span>{typeof errorMsg == "string" ? errorMsg : errorMsg[0]}</span>}
                                             </div>
 
-                                            {user.rule == "admin" || (values && values.replied !== true) &&
+                                            {  (params.id == "new" && user.rule != "admin") || (values && values.replied !== true)  &&
 
                                                 <div className="button">
                                                     <input disabled={(!isValid || loading)} type="submit" value={params.id == "new" ? "send" : "reply"} />

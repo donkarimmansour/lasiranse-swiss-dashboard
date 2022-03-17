@@ -18,11 +18,10 @@ const Main = () => {
 
     useEffect(() => {
         dispatch({ type: CLEAR_MESSAGE })
-        if (user.rule == "login" && user.isAccountActivated) {
+        if (user.rule == "admin" && user.isAccountActivated) {
             dispatch(update_contact(user._id, authorization))
         }
     }, [])
-
 
     const [Contacts, setContacts] = useState(0)
     const [ContactN, setContactN] = useState(0)
