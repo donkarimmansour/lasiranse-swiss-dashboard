@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLEAR_MESSAGE } from "../../../redux/constans/message"
 import "../../../styles/login.css"
 import { SignupAuths } from "../../../redux/actions/user";
-
+import background  from "../../../img/backgroundlogin.jpg"
 const Signup = () => {
     const navigate = useNavigate() 
     const dispatch = useDispatch() 
@@ -62,12 +62,12 @@ const Signup = () => {
 
     
     const  SginupValidator = yup.object().shape({
-        firstname: yup.string().required("firstname field is required"),
-        lastname: yup.string().required("lastname field is required"),
-        email: yup.string().required("email field is required").email("email must be email"),
-        password: yup.string().required("password field is required"),
-        confirmpassword: yup.string().required("confirm password field is required")
-            .test("confirmpassword", "confirm password must be the same as password"
+        firstname: yup.string().required("le champ prénom est obligatoire"),
+        lastname: yup.string().required("le champ nom de famille est obligatoire"),
+        email: yup.string().required("le champ email est obligatoire").email("l'e-mail doit être un e-mail"),
+        password: yup.string().required("le champ mot de passe est obligatoire"),
+        confirmpassword: yup.string().required("le champ de confirmation du mot de passe est obligatoire")
+            .test("Confirmez le mot de passe", "confirmer le mot de passe doit être le même que le mot de passe"
                 , function (value) {  return this.parent.password == value }), 
     })
 
@@ -75,8 +75,8 @@ const Signup = () => {
     
     const Done = () => <Fragment>
         <div className="pupup" style={{ display: "block" }}>
-            <h5>Done!</h5>
-            <p>please wait for accept your account</p>
+            <h5>Terminé !!</h5>
+            <p>veuillez patienter pour accepter votre compte</p>
             <button onClick={() => {
 
                 dispatch({ type: CLEAR_MESSAGE })
@@ -87,7 +87,7 @@ const Signup = () => {
 
     return (
 
-      <div className="login-wrapper">
+      <div className="login-wrapper " style={{ backgroundImage: `url(${background})` }}>
             <div className="container">
 
             {loading && loader()}
@@ -96,7 +96,7 @@ const Signup = () => {
 
             {/* <!-- start login form --> */} 
             <div className="form">
-                <span className="title">SignUp</span>
+                <span className="title">S'inscrire</span>
 
                 {
                     <Formik
@@ -110,9 +110,9 @@ const Signup = () => {
                                 <Form>
 
                                    <div className="input-field">
-                                        <label>First Name*</label>
+                                        <label>Prénom*</label>
                                         <div>
-                                             <Field type="text" name="firstname" placeholder="Enter your first name" required="" />
+                                             <Field type="text" name="firstname" placeholder="Entrez votre prénom" required="" />
                                             <i className="fa-solid fa-user"></i>
                                         </div>
                                        
@@ -121,9 +121,9 @@ const Signup = () => {
                                     </div>
 
                                     <div className="input-field">
-                                        <label>Last Name*</label>
+                                        <label>Nom de famille*</label>
                                         <div>
-                                             <Field type="text" name="lastname" placeholder="Enter your last name" required="" />
+                                             <Field type="text" name="lastname" placeholder="Entrez votre nom de famille" required="" />
                                             <i className="fa-solid fa-user"></i>
                                         </div>
                                        
@@ -133,9 +133,9 @@ const Signup = () => {
 
 
                                     <div className="input-field">
-                                        <label>Email Address*</label>
+                                        <label>Adresse e-mail*</label>
                                         <div>
-                                             <Field type="email" name="email" placeholder="Enter your email" required="" />
+                                             <Field type="email" name="email" placeholder="Entrer votre Email" required="" />
                                             <i className="fa-solid fa-envelope"></i>
                                         </div>
                                        
@@ -143,10 +143,10 @@ const Signup = () => {
 
                                     </div>
                                     <div className="input-field">
-                                        <label>password*</label>
+                                        <label>le mot de passe*</label>
 
                                         <div>
-                                             <Field type="password" name="password" placeholder="Enter your password" required="" />
+                                             <Field type="password" name="password" placeholder="Tapez votre mot de passe" required="" />
                                             <i className="fa-solid fa-lock"></i>
                                         </div>
 
@@ -155,10 +155,10 @@ const Signup = () => {
                                     </div>
 
                                     <div className="input-field">
-                                        <label>confirmpassword*</label>
+                                        <label>Confirmez le mot de passe*</label>
 
                                         <div>
-                                             <Field type="password" name="confirmpassword" placeholder="Enter your confirm password" required="" />
+                                             <Field type="password" name="confirmpassword" placeholder="Entrez votre mot de passe de confirmation" required="" />
                                             <i className="fa-solid fa-lock"></i>
                                             <i className="fa-solid fa-eye-slash show-hide-pw" onClick={ (e)=> {changeType(e)} }></i>
                                         </div>
@@ -179,8 +179,8 @@ const Signup = () => {
                                     </div>
 
                                     <div className="login-signup">
-                                        <span className="text">not a member?
-                                            <Link to="/login" className="text login-text">login new</Link>
+                                        <span className="text">pas un membre?
+                                            <Link to="/login" className="text login-text">se connecter nouveau!!</Link>
                                         </span>
                                     </div>
 

@@ -14,7 +14,7 @@ import { getLocalStorage } from "../../../shared/localStorage";
 
 
 const Main = () => {
-    const dispatch = useDispatch() 
+    const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch({ type: CLEAR_MESSAGE })
@@ -64,15 +64,21 @@ const Main = () => {
         setChatN(chatN)
     }, [userN, chatN])
 
+
     const viewContact = (id, contact) => {
         dispatch(view_contact(id, authorization))
 
         setContact(contact)
-        convertJsonToExcel("contact", [contact])
         setshowDel(true)
+
 
     }
 
+    const downloadContact = (id, contact) => {
+        dispatch(view_contact(id, authorization))
+
+        convertJsonToExcel("contact", [contact])
+    }
 
     const deleteContact = (id) => {
         const conf = window.confirm("Are you sure")
@@ -80,6 +86,8 @@ const Main = () => {
             dispatch(delete_contact(id, authorization))
         }
     }
+
+
 
     const View = () =>
 
@@ -113,7 +121,7 @@ const Main = () => {
 
                     {user.rule !== "admin" &&
                         UserN && contactN &&
-                        <Link to="/admin/admin">
+                        <Link to="/admin">
                             <div className="card">
                                 <div>
                                     <span>{UserN}</span>
@@ -130,7 +138,7 @@ const Main = () => {
 
 
                     {ContactN && contactN &&
-                        <Link to="/admin/contacts">
+                        <Link to="/contacts">
                             <div className="card">
                                 <div>
                                     <span>{ContactN}</span>
@@ -146,7 +154,7 @@ const Main = () => {
 
 
                     {ChatN && chatN &&
-                        <Link to="/admin/chats">
+                        <Link to="/chats">
                             <div className="card">
                                 <div>
                                     <span>{ChatN}</span>
@@ -167,12 +175,11 @@ const Main = () => {
 
                 {contacts && Contacts &&
 
-                    <div className="table" style={{ overflowX: "auto" }}>
-                        <table>
+                    <div className="table-wrap">
+                        <table className="table table-responsive-xl">
                             <thead>
                                 <tr>
-                                    <th>Fullname</th>
-                                    <th>Email</th>
+                                    <th>Fullname and Email</th>
                                     <th>phone</th>
                                     <th>Naissance</th>
                                     <th>Franchise</th>
@@ -185,34 +192,58 @@ const Main = () => {
                             </thead>
                             <tbody>
 
-                                {Contacts.map((contact, ci) => {
-                                    return (
-                                        <tr key={ci}>
-                                            <td>{extractDesk(contact.fullname, 10)}</td>
-                                            <td>{extractDesk(contact.email, 10)}</td>
-                                            <td>{extractDesk(contact.phone, 10)}</td>
-                                            <td>{extractDesk(contact.naissance, 10)}</td>
-                                            <td>{extractDesk(contact.franchise, 10)}</td>
-                                            <td>{extractDesk(contact.npa, 10)}</td>
+                                {
+                                    Contacts.map((contact, ci) => {
+                                        return (
+                                            <tr key={ci}>
 
-                                            <td>{user.rule == "admin" ? contact.viewed ? "yes" : "no" : contact.used ? "yes" : "no"}</td>
 
-                                            {user.rule !== "admin" && <td>
-                                                {contact.used && <Link to={`/admin/adminprofile/${contact.user_id._id}`}>
-                                                    {`${contact.user_id.firstname} ${contact.user_id.lastname}`}</Link>}
-                                                {!contact.used && "..."}
-                                            </td>}
+                                                <td className="d-flex align-items-center">
+                                                    <div className="pl-3 email">
+                                                        <span>{contact.fullname}</span>
+                                                        <span style={{ marginTop: "5px" }}>{contact.email}</span>
+                                                    </div>
+                                                </td>
 
-                                             <td>{contact.type}</td>
-                                             
-                                            <td><button className="view" href="" onClick={() => { viewContact(contact._id, contact) }}  >view</button>
-                                                {user.rule != "admin" &&
-                                                    <button className="delete" href="" onClick={() => { deleteContact(contact._id) }}  >delete</button>}
+                                                <td>{extractDesk(contact.phone, 10)}</td>
+                                                <td>{extractDesk(contact.naissance, 10)}</td>
+                                                <td>{extractDesk(contact.franchise, 10)}</td>
+                                                <td>{extractDesk(contact.npa, 10)}</td>
 
-                                            </td>
-                                        </tr>
-                                    )
-                                })
+                                                <td className="status"><span className={user.rule == "admin" ? contact.viewed ? "active" : "waiting" : contact.used ? "active" : "waiting"}>{user.rule == "admin" ? contact.viewed ? "Active" : "No" : contact.used ? "Active" : "No"}</span></td>
+
+
+                                                {user.rule !== "admin" && <td>
+                                                    {contact.used && <Link to={`/adminprofile/${contact.user_id._id}`}>
+                                                        {`${contact.user_id.firstname} ${contact.user_id.lastname}`}</Link>}
+                                                    {!contact.used && "..."}
+                                                </td>}
+
+                                                <td>{contact.type}</td>
+
+                                                <td>
+
+                                                    <button type="button" className="download" onClick={() => { downloadContact(contact._id, contact) }}>
+                                                        <span aria-hidden="true"><i className="fa-solid fa-file-arrow-down"></i></span>
+
+                                                    </button>
+
+                                                    <button type="button" className="edit" onClick={() => { viewContact(contact._id, contact) }}>
+                                                        <span aria-hidden="true"><i className="fa-solid fa-eye"></i></span>
+                                                    </button>
+
+                                                    {user.rule != "admin" &&
+                                                        <button type="button" className="delete" onClick={() => { deleteContact(contact._id) }}>
+                                                            <span aria-hidden="true"><i className="fa-solid fa-trash-can"></i></span>
+                                                        </button>
+                                                    }
+
+
+
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
                                 }
 
 

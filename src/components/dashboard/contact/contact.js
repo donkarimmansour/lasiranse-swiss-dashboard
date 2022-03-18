@@ -84,11 +84,25 @@ const Contacts = () => {
         dispatch(view_all_contact(id, authorization))
 
         setContact(contact)
-        convertJsonToExcel("contact", [contact])
         setshowDel(true)
 
 
     }
+
+    const downloadContact = (id, contact) => {
+        dispatch(view_all_contact(id, authorization))
+
+        convertJsonToExcel("contact", [contact])
+    }
+
+    const deleteContact = (id) => {
+        const conf = window.confirm("Are you sure")
+        if (conf) {
+            dispatch(delete_contact(id, authorization))
+        }
+    }
+
+
 
     const exportData = () => {
         dispatch({ type: START_LOADING })
@@ -107,7 +121,7 @@ const Contacts = () => {
 
             if (!data.err) {
                 dispatch({ type: STOP_LOADING })
-                convertJsonToExcel("contacts" , data.msg)
+                convertJsonToExcel("contacts", data.msg)
             } else {
                 console.log("get contacts err ", data.msg);
                 alert(data.msg)
@@ -122,12 +136,7 @@ const Contacts = () => {
     }
 
 
-    const deleteContact = (id) => {
-        const conf = window.confirm("Are you sure")
-        if (conf) {
-            dispatch(delete_contact(id, authorization))
-        }
-    }
+
 
     const View = () =>
 
@@ -161,37 +170,38 @@ const Contacts = () => {
         const currentPage = Pages.currentPage
         const pagesLength = Pages.pages.length
 
+      
         if (pagesLength > 0) {
 
             if (currentPage == 1) {
 
                 for (let pageid = 1; pageid <= pagesLength; pageid++) {
-                    paginations.push(<li key={pageid}><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames({ "active": pageid == currentPage })} href="#">{pageid}</a></li>)
+                    paginations.push(<li className="page-item" key={pageid}><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames("page-link", "page-link", { "active": pageid == currentPage })} href="#">{pageid}</a></li>)
                     if (pageid == 3) {
-                        paginations.push(<li key="next"><a href="#" onClick={() => { setCurrentPags("next") }}>next</a></li>)
+                        paginations.push(<li key="next" className="page-item"><a href="#" onClick={() => { setCurrentPags("next") }}>next</a></li>)
                         return
                     }
                 }
 
             }
             else if (pagesLength > 0 && currentPage == pagesLength || currentPage == (pagesLength - 1) || currentPage == (pagesLength - 2)) {
-                paginations.push(<li key="prev"><a href="#" onClick={() => { setCurrentPags("prev") }}>Prev</a></li>)
+                paginations.push(<li key="prev" className="page-item"><a href="#" onClick={() => { setCurrentPags("prev") }}>Prev</a></li>)
 
                 for (let pageid = (pagesLength - 3); pageid <= pagesLength; pageid++) {
                     if (pageid > 0) {
-                        paginations.push(<li key={pageid}><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames({ "active": pageid == currentPage })} href="#">{pageid}</a></li>)
+                        paginations.push(<li key={pageid} className="page-item"><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames("page-link", { "active": pageid == currentPage })} href="#">{pageid}</a></li>)
                     }
                 }
 
             }
             else {
-                paginations.push(<li key="prev"><a href="#" onClick={() => { setCurrentPags("prev") }}>Prev</a></li>)
+                paginations.push(<li key="prev" className="page-item"><a href="#" onClick={() => { setCurrentPags("prev") }}>Prev</a></li>)
 
                 for (let pageid = (currentPage - 1); pageid <= pagesLength; pageid++) {
-                    paginations.push(<li key={pageid}><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames({ "active": pageid == currentPage })} href="#">{pageid}</a></li>)
+                    paginations.push(<li key={pageid} className="page-item"><a onClick={() => { setCurrentPags(pageid) }} className={myClassNames("page-link", { "active": pageid == currentPage })} href="#">{pageid}</a></li>)
 
                     if (pageid == currentPage + 2) {
-                        paginations.push(<li key="next"><a href="#" onClick={() => { setCurrentPags("next") }}>Next</a></li>)
+                        paginations.push(<li key="next" className="page-item"><a href="#" onClick={() => { setCurrentPags("next") }}>Next</a></li>)
 
                         return
                     }
@@ -232,18 +242,18 @@ const Contacts = () => {
 
                 {all_contacts && Contacts && Contacts.length > 0 &&
 
-                    <div className="table">
-                        <table>
+                    <div className="table-wrap">
+                        <table className="table table-responsive-xl">
                             <thead>
                                 <tr>
-                                    <th>Fullname</th>
-                                    <th>Email</th>
+                                    <th>Fullname and Email</th>
                                     <th>phone</th>
                                     <th>Naissance</th>
                                     <th>Franchise</th>
                                     <th>NPA</th>
                                     <th>{user.rule === "admin" ? "viewed" : "Used"}</th>
                                     {user.rule !== "admin" && <th>user</th>}
+                                    <th>type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -253,14 +263,22 @@ const Contacts = () => {
                                     Contacts.map((contact, ci) => {
                                         return (
                                             <tr key={ci}>
-                                                <td>{extractDesk(contact.fullname, 10)}</td>
-                                                <td>{extractDesk(contact.email, 10)}</td>
+
+
+                                                <td className="d-flex align-items-center">
+                                                    <div className="pl-3 email">
+                                                        <span>{contact.fullname}</span>
+                                                        <span style={{ marginTop: "5px" }}>{contact.email}</span>
+                                                    </div>
+                                                </td>
+
                                                 <td>{extractDesk(contact.phone, 10)}</td>
                                                 <td>{extractDesk(contact.naissance, 10)}</td>
                                                 <td>{extractDesk(contact.franchise, 10)}</td>
                                                 <td>{extractDesk(contact.npa, 10)}</td>
 
-                                                <td>{user.rule == "admin" ? contact.viewed ? "yes" : "no" : contact.used ? "yes" : "no"}</td>
+                                                <td className="status"><span className={user.rule == "admin" ? contact.viewed ? "active" : "waiting" : contact.used ? "active" : "waiting"}>{user.rule == "admin" ? contact.viewed ? "Active" : "No" : contact.used ? "Active" : "No"}</span></td>
+
 
                                                 {user.rule !== "admin" && <td>
                                                     {contact.used && <Link to={`/adminprofile/${contact.user_id._id}`}>
@@ -268,10 +286,26 @@ const Contacts = () => {
                                                     {!contact.used && "..."}
                                                 </td>}
 
+                                                <td>{contact.type}</td>
 
-                                                <td><button className="view" href="" onClick={() => { viewContact(contact._id, contact) }}  >view</button>
+                                                <td>
+
+                                                    <button type="button" className="download" onClick={() => { downloadContact(contact._id, contact) }}>
+                                                        <span aria-hidden="true"><i className="fa-solid fa-file-arrow-down"></i></span>
+
+                                                    </button>
+
+                                                    <button type="button" className="edit" onClick={() => { viewContact(contact._id, contact) }}>
+                                                        <span aria-hidden="true"><i className="fa-solid fa-eye"></i></span>
+                                                    </button>
+
                                                     {user.rule != "admin" &&
-                                                        <button className="delete" href="" onClick={() => { deleteContact(contact._id) }}  >delete</button>}
+                                                        <button type="button" className="delete" onClick={() => { deleteContact(contact._id) }}>
+                                                            <span aria-hidden="true"><i className="fa-solid fa-trash-can"></i></span>
+                                                        </button>
+                                                    }
+
+
 
                                                 </td>
                                             </tr>
@@ -288,8 +322,8 @@ const Contacts = () => {
 
                 }
 
-                <div className="pagination">
-                    <ul>
+                <div >
+                    <ul className="pagination justify-content-center">
                         {paginations}
                     </ul>
                 </div>

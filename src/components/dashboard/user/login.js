@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLEAR_MESSAGE } from "../../../redux/constans/message"
 import "../../../styles/login.css"
 import { LoginAuths } from "../../../redux/actions/user";
-
+import background  from "../../../img/backgroundlogin.jpg"
 const Login = () => {
     const navigate = useNavigate() 
     const dispatch = useDispatch() 
@@ -44,8 +44,8 @@ const Login = () => {
     }
 
     const  LoginValidator = yup.object().shape({
-        email: yup.string().required("email field is required").email("email must be email"),
-        password: yup.string().required("password field is required"),
+        email: yup.string().required("le champ email est obligatoire").email("l'e-mail doit être un e-mail"),
+        password: yup.string().required("le champ mot de passe est obligatoire"),
     })
 
     const changeType = e => {
@@ -62,13 +62,13 @@ const Login = () => {
 
     return (
 
-      <div className="login-wrapper">
+      <div className="container login-wrapper" style={{ backgroundImage: `url(${background})` }}>
             <div className="container">
             {loading && loader()}
 
             {/* <!-- start login form --> */} 
             <div className="form">
-                <span className="title">Login</span>
+                <span className="title">Connexion</span>
 
                 {
                     <Formik
@@ -81,9 +81,9 @@ const Login = () => {
 
                                 <Form>
                                     <div className="input-field">
-                                        <label>Email Address*</label>
+                                        <label>Adresse e-mail*</label>
                                         <div>
-                                             <Field type="text" name="email" placeholder="Enter your email" required="" />
+                                             <Field type="text" name="email" placeholder="Entrer votre Email" required="" />
                                             <i className="fa-solid fa-envelope"></i>
                                         </div>
                                        
@@ -91,10 +91,10 @@ const Login = () => {
 
                                     </div>
                                     <div className="input-field">
-                                        <label>password*</label>
+                                        <label>le mot de passe*</label>
 
                                         <div>
-                                             <Field type="password" name="password" placeholder="Enter your password" required="" />
+                                             <Field type="password" name="password" placeholder="Tapez votre mot de passe" required="" />
                                             <i className="fa-solid fa-lock"></i>
                                             <i className="fa-solid fa-eye-slash show-hide-pw" onClick={ (e)=> {changeType(e)} }></i>
                                         </div>
@@ -108,7 +108,7 @@ const Login = () => {
                                     </div>
 
                                     <div > 
-                                        <Link to="/forgot">Forgot Password?"</Link>
+                                        <Link to="/forgot">Mot de passe oublié?</Link>
                                     </div>
 
                                     <div className="input-field button">
@@ -118,8 +118,8 @@ const Login = () => {
                                     </div>
 
                                     <div className="login-signup">
-                                        <span className="text">i'm a member?
-                                            <Link to="/signup" className="text login-text">signup new</Link>
+                                        <span className="text">je suis membre?
+                                            <Link to="/signup" className="text login-text">s'inscrire !!</Link>
                                         </span>
                                     </div>
 

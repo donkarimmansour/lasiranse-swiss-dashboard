@@ -1,10 +1,18 @@
-body{
-  margin: 0;
-  padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700 &display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-#root , .app{
-    width:100%
+#root,
+.app {
+    width: 100% ;
+    background: #f5f7fa91;
+
 }
 
 
@@ -16,13 +24,13 @@ body{
     width: 80px;
     height: 80px;
     top: 50%;
-    
-  }
-  .lds-roller div {
+
+}
+.lds-roller div {
     animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     transform-origin: 40px 40px;
-  }
-  .lds-roller div:after {
+}
+.lds-roller div:after {
     content: " ";
     display: block;
     position: absolute;
@@ -31,75 +39,74 @@ body{
     border-radius: 50%;
     background: #c9b7b7;
     margin: -4px 0 0 -4px;
-  }
-  .lds-roller div:nth-child(1) {
+}
+.lds-roller div:nth-child(1) {
     animation-delay: -0.036s;
-  }
-  .lds-roller div:nth-child(1):after {
+}
+.lds-roller div:nth-child(1):after {
     top: 63px;
     left: 63px;
-  }
-  .lds-roller div:nth-child(2) {
+}
+.lds-roller div:nth-child(2) {
     animation-delay: -0.072s;
-  }
-  .lds-roller div:nth-child(2):after {
+}
+.lds-roller div:nth-child(2):after {
     top: 68px;
     left: 56px;
-  }
-  .lds-roller div:nth-child(3) {
+}
+.lds-roller div:nth-child(3) {
     animation-delay: -0.108s;
-  }
-  .lds-roller div:nth-child(3):after {
+}
+.lds-roller div:nth-child(3):after {
     top: 71px;
     left: 48px;
-  }
-  .lds-roller div:nth-child(4) {
+}
+.lds-roller div:nth-child(4) {
     animation-delay: -0.144s;
-  }
-  .lds-roller div:nth-child(4):after {
+}
+.lds-roller div:nth-child(4):after {
     top: 72px;
     left: 40px;
-  }
-  .lds-roller div:nth-child(5) {
+}
+.lds-roller div:nth-child(5) {
     animation-delay: -0.18s;
-  }
-  .lds-roller div:nth-child(5):after {
+}
+.lds-roller div:nth-child(5):after {
     top: 71px;
     left: 32px;
-  }
-  .lds-roller div:nth-child(6) {
+}
+.lds-roller div:nth-child(6) {
     animation-delay: -0.216s;
-  }
-  .lds-roller div:nth-child(6):after {
+}
+.lds-roller div:nth-child(6):after {
     top: 68px;
     left: 24px;
-  }
-  .lds-roller div:nth-child(7) {
+}
+.lds-roller div:nth-child(7) {
     animation-delay: -0.252s;
-  }
-  .lds-roller div:nth-child(7):after {
+}
+.lds-roller div:nth-child(7):after {
     top: 63px;
     left: 17px;
-  }
-  .lds-roller div:nth-child(8) {
+}
+.lds-roller div:nth-child(8) {
     animation-delay: -0.288s;
-  }
-  .lds-roller div:nth-child(8):after {
+}
+.lds-roller div:nth-child(8):after {
     top: 56px;
     left: 12px;
-  }
-  @keyframes lds-roller {
+}
+@keyframes lds-roller {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
+}
 
 
-  .pupup {
+.pupup {
     margin: 0 auto;
     width: 500px;
     background: #fff;
@@ -110,13 +117,13 @@ body{
     top: 50%;
     transform: translate(-50%, -50%);
     left: 50%;
-    box-shadow:0 0 10px rgba(0,0,0,0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     font-family: 'Oswald', sans-serif;
     z-index: 100;
 }
 .pupup h5 {
     font-size: 50px;
-    margin: 0px;
+    margin: 0;
     color: #4CAF50;
 }
 .pupup p {
@@ -138,42 +145,41 @@ body{
 }
 
 
-@media (max-width : 600px) {
-  .pupup{
-    width: 400px;
-  }
-  .pupup h5{
-    font-size: 30px;
-  }
+@media(max-width : 600px) {
+    .pupup {
+        width: 400px;
+    }
+    .pupup h5 {
+        font-size: 30px;
+    }
 }
 
-@media (max-width : 450px) {
-  .pupup{
-    width: 90%;
-  }
+@media(max-width : 450px) {
+    .pupup {
+        width: 90%;
+    }
 
-  .pupup h5{
-    font-size: 20px;
-  }
+    .pupup h5 {
+        font-size: 20px;
+    }
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+    background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+    background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
-

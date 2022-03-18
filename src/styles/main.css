@@ -1,88 +1,255 @@
 
+/* start table */
+
+
+.table-wrap {
+    overflow-x: scroll;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    border-radius: 10px 10px 0px 0px;
+    margin: 16px;
+}
+
 .table {
-    padding: 30px 20px;
-    overflow-x: auto;
+    margin-bottom: 1rem;
+    color: #212529; 
+   border-collapse: collapse;
+   min-width: 1000px !important;
+   width: 100%;
+   -webkit-box-shadow: 0 5px 12px -12px rgba(0, 0, 0, 0.29);
+   -moz-box-shadow: 0 5px 12px -12px rgba(0, 0, 0, 0.29);
+   box-shadow: 0 5px 12px -12px rgba(0, 0, 0, 0.29);
 
 }
-
-table {
-    border-collapse: collapse;
-    box-shadow: 20px 20px 20px 5px #a7bad3;
-    background-color: white;
-    text-align: left;
-    width: 100%;
-
+.table th {
+    text-align: inherit;
 }
 
-
-th {
-    background-color: #2196f3;
-    padding: 0.75rem 2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: white;
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
 }
-
-td {
-    padding: 0.3rem 1rem;
-    font-size: 0.9rem;
-}
-
-
-td button {
-    background-color: #2196f3;
-    font-weight: 500;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 10px;
-    box-shadow: 2px 3px 10px 0 #ccc;
-    text-decoration: none;
-    text-transform: capitalize;
-    margin: 5px;
-    outline: none;
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
     border: none;
-    cursor: pointer;
+    padding: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    color: gray;
+    font-weight: bold;
+    font-size: 15px;
+}
 
+@media(max-width: 1199.98px) {
+    .table-responsive-xl {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+
+.table .alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+
+.table button {
+  padding: 10px;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  opacity: .8;
+  text-shadow: 0 1px 0 #fff;
+  font-size: 12px;
+  cursor: pointer;
+
+}
+.table button.delete {
+color: #dc3545;
+}
+.table button.edit {
+color: #23bd5a;
+}
+.table button.download {
+color: #3591dc;
+}
+
+.table .d-flex {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+
+.table .align-items-center {
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+.table .pl-3 {
+    padding-left: 1rem !important;
+}
+
+
+.table .img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+
+.table thead tr {
+    background: #fff;
+    border-bottom: 4px solid #eceffa;
+    line-height: 0px;
+}
+.table tbody tr {
+    margin-bottom: 10px;
+    border-bottom: 4px solid #f8f9fd;
+}
+.table tbody tr:last-child {
+    border-bottom: 0;
+}
+
+.multy span {
+    text-align: center;
+}
+.multy span {
+    padding: 2px;
+    display: block;
+}
+
+.multy span:nth-child(2) {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    color: rgb(100 87 87);
+}
+
+.table tbody td {
+    border: none;
+    padding: 7px;
+    font-size: 14px;
+    background: #fff;
+    vertical-align: middle;
+}
+.table tbody td.status span {
+    position: relative;
+    border-radius: 30px;
+    padding: 4px 10px 4px 25px;
+}
+.table tbody td.status span:after {
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    content: '';
+    border-radius: 50%;
+}
+.table tbody td.status .active {
+    background: #cff6dd;
+    color: #1fa750;
+}
+.table tbody td.status .active:after {
+    background: #23bd5a;
+}
+.table tbody td.status .waiting {
+    background: #fdf5dd;
+    color: #cfa00c;
+}
+.table tbody td.status .waiting:after {
+    background: #f2be1d;
+}
+.table tbody td .img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.table tbody td .email span {
+    display: block;
+}
+.table tbody td .email span:last-child {
+    font-size: 13px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.3);
 }
 
 
 
-td button.delete {
-    background-color: tomato;
+
+/* width */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 8px;
 }
 
-td button.view {
-    background-color: #0bf3b9;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d1cece;
 }
 
-/* //   Color alternating rows */
-tr:nth-child(even) {
-    background-color: #f3f8fe;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
 }
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* end table */
+
 
 .cardbox {
     position: relative;
-    width: 100%;
-    padding: 20px;
+    width: 70%;
+    padding: 8px;
     display: grid;
     grid-template-columns: repeat(3 , minmax(100px , 1fr));
-    grid-gap: 30px;
+    grid-gap: 26px;
+    margin-top: 15px;
+    
 }
+
 .cardbox .card {
     position: relative;
-    background-color: #ebf0f3;
+    background-color: #fff;
     padding: 30px 50px;
-    box-shadow: 0 7px 25px rgba((0, 0, 0, 8), green, blue, alpha);
     cursor: pointer;
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 
 .cardbox .card:hover {
-    background-color: #2196f3;
+    background-color: #2ac4ea;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+@media all and (max-width: 600px) {
+    .cardbox {
+        width: 100%;
+    }
+.cardbox .card .icon {
+    font-size: 1.5em !important;
+    color: black;
+}
+.cardbox .card {
+    padding: 20px 20px !important;
+}
 }
 
 .cardbox .card:hover span,
@@ -109,81 +276,68 @@ tr:nth-child(even) {
 
 }
 
-
 .pagination {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 20px 40px 0;
-    margin-top: 10px;
-
-}
-.pagination ul {
+    padding-left: 0;
     list-style: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    float: right;
+    margin-right: 16px;
+}
+
+.pagination .mb-0 {
+    margin-bottom: 0!important;
+}
+
+.pagination .justify-content-end {
+    justify-content: flex-end!important;
+}
+
+.pagination .page-item {
+  margin: 2px;
+}
+
+.pagination .page-item:not(:first-child) .page-link {
+    margin-left: 0;
+}
+
+.pagination .page-item:not(:first-child) .page-link {
+    margin-left: -1px;
+}
+
+.pagination .page-link, .page-link:hover {
+    color: #212529;
+}
+.pagination .page-link {
+    font-size: .9rem;
     background-color: transparent;
-
+    border: 0;
+    outline: 0;
+    transition: all .3s linear;
+    border-radius: 0.25rem;
+}
+.pagination .page-link {
+    padding: 0.375rem 0.75rem;
+}
+.pagination .page-link {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
 }
 
-
-.pagination ul li a {
-    padding: 0.75em 1rem;
-    margin: 0.25em;
-    border-radius: 0.5em;
-    background-color: white;
-    border: 1px solid #ccc;
-    color: #000;
-    box-shadow: 1px 2px 2px 0 #ccc;
-
+.pagination .page-link:hover {
+    background-color: #2196f3;
+    color: #fff;
 }
 
-.pagination ul li:hover a {
-    border-color: white;
-    color: black;
-    font-weight: 600;
-    border-color: black;
-}
-.pagination ul li a.active {
-    border-color: white;
-    color: black;
-    font-weight: 600;
-    border-color: black;
+.pagination .page-link.active {
+    background-color: #2196f3;
+    color: #fff;
 }
 
 
 @media(max-width : 991px) {
-
-  .table {
-      padding: 20px 10px;
-  }
-
-  table {
-      box-shadow: 5px 5px 5px 2px #a7bad3;
-  }
-
-
-  th {
-      padding: 0.40rem 1.2rem;
-      font-size: 0.3rem;
-      font-weight: 500;
-  }
-
-  td {
-      padding: 0.5rem;
-      font-size: 0.6rem;
-  }
-
-
-  td button {
-      font-weight: 400;
-      padding: 3px 8px;
-      border-radius: 8px;
-      margin: 3px;
-      font-size: 0.5rem;
-
-  }
 
 .cardbox {
     padding: 10px;
@@ -210,7 +364,7 @@ tr:nth-child(even) {
 
   }
 
-.pagination {
+/* .pagination {
     padding: 5px 10px 20px 0;
 }
 
@@ -218,7 +372,7 @@ tr:nth-child(even) {
     padding: 0.5em 0.75rem;
     margin: 0.25em;
 }
-
+ */
 
 
 }
@@ -226,36 +380,6 @@ tr:nth-child(even) {
 
 @media(max-width : 480px) {
 
-  .table {
-      padding: 10px 10px;
-  }
-
-  table {
-      box-shadow: 10px 10px 10px 3px #a7bad3;
-
-  }
-
-
-  th {
-      padding: 0.50rem 0.8rem;
-      font-size: 0.4rem;
-      font-weight: 500;
-  }
-
-  td {
-      padding: 0.4rem;
-      font-size: 0.5rem;
-  }
-
-
-  td button {
-      font-weight: 300;
-      padding: 2px 5px;
-      border-radius: 5px;
-      margin: 2px;
-      font-size: 0.4rem;
-
-  }
   .cardbox {
     padding: 8px;
     grid-gap: 10px;
@@ -282,14 +406,14 @@ tr:nth-child(even) {
   }
 
   
-  .pagination {
+  /* .pagination {
     padding: 2px 10px 20px 0;
 }
 
 .pagination ul li a {
     padding: 0.3em 0.5rem;
     margin: 0.2em;
-}
+} */
 
 
 }
@@ -312,6 +436,7 @@ tr:nth-child(even) {
     border: none;
     cursor: pointer;
     padding: 8px 16px;
+    margin-bottom: 10px;
 }
 
 .export-data  button:hover{
@@ -325,4 +450,66 @@ tr:nth-child(even) {
 
 .export-data  button:last-of-type:hover{
     background-color: #0b8bf3;
+}
+
+
+@media(max-width : 991px) {
+  
+  .cardbox {
+      padding: 10px;
+      grid-gap: 20px;
+  }
+  .cardbox .card {
+      padding: 20px 30px;
+      box-shadow: 0 7px 20px rgba((0, 0, 0, 8), green, blue, alpha);
+      border-radius: 16px;
+  
+  }
+  
+    .cardbox .card span {
+        font-weight: 400;
+        font-size: 2em;
+    }
+    .cardbox .card p {
+        font-size: 1em;
+        margin-top: 5px;
+    }
+  
+    .cardbox .card .icon {
+        font-size: 3em;
+  
+    }
+  
+  
+  
+  
+  }
+  
+  
+  @media(max-width : 480px) {
+    .cardbox {
+      padding: 8px;
+      grid-gap: 10px;
+  }
+  .cardbox .card {
+      padding: 10px 20px;
+      box-shadow: 0 3px 10px rgba((0, 0, 0, 8), green, blue, alpha);
+      border-radius: 10px;
+  
+  }
+  
+    .cardbox .card span {
+        font-weight: 300;
+        font-size: 1em;
+    }
+    .cardbox .card p {
+        font-size: 0.7em;
+        margin-top: 3px;
+    }
+  
+    .cardbox .card .icon {
+        font-size: 1.5em;
+  
+    }
+  
 }

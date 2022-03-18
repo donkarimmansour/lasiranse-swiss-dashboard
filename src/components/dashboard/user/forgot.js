@@ -8,7 +8,7 @@ import { ForgotAuths } from "../../../redux/actions/user";
 import { CLEAR_MESSAGE } from "../../../redux/constans/message"
 import { useDispatch, useSelector } from "react-redux";
 import "../../../styles/login.css"
-
+import background  from "../../../img/backgroundlogin.jpg";
 
 const Forgot = () => {
     const navigate = useNavigate()
@@ -34,32 +34,32 @@ const Forgot = () => {
     }
 
     const  ForgotValidator = yup.object().shape({
-        email: yup.string().required("email field is required").email("email must be email"),
+        email: yup.string().required("le champ email est obligatoire").email("l'e-mail doit être un e-mail"),
     
     })
 
     
     const Done = () => <Fragment>
         <div className="pupup" style={{ display: "block" }}>
-            <h5>Done!</h5>
-            <p>new Sent password</p>
+            <h5>Terminé !!</h5>
+            <p>nouveau mot de passe envoyé</p>
             <button onClick={() => {
                 dispatch({ type: CLEAR_MESSAGE })
                 navigate("/login")
             }
-            } >OK</button>
+            } >d'accord</button>
         </div></Fragment>
  
  return (
   
-    <div className="login-wrapper">
+    <div className="login-wrapper" style={{ backgroundImage: `url(${background})` }}>
  <div className="container">
         {loading && loader()}
         {successMsg && Done()}
 
         {/* <!-- start login form --> */}
         <div className="form">
-            <span className="title">Forgot Password?</span>
+            <span className="title">Mot de passe oublié?</span>
 
             {
                 <Formik
@@ -72,9 +72,9 @@ const Forgot = () => {
 
                             <Form>
                                 <div className="input-field">
-                                    <label>Email Address*</label>
+                                    <label>Adresse e-mail*</label>
                                     <div>
-                                         <Field type="text" name="email" placeholder="Enter your email" required="" />
+                                         <Field type="text" name="email" placeholder="Entrer votre Email" required="" />
                                         <i className="fa-solid fa-envelope"></i>
                                     </div>
                                    
@@ -88,12 +88,12 @@ const Forgot = () => {
                                 </div>
 
                                 <div > 
-                                    <Link to="/admin/login">Login?</Link>
+                                    <Link to="/admin/login">Connexion?</Link>
                                 </div>
 
                                 <div className="input-field button">
                                     <div>
-                                      <input disabled={(!dirty || !isValid || loading)} type="submit" value="Send" />
+                                      <input disabled={(!dirty || !isValid || loading)} type="submit" value="Envoyer" />
                                     </div>
                                 </div>
 

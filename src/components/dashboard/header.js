@@ -111,7 +111,7 @@ const Header = () => {
                      { user.rule !== "admin" && <li><Link to="/admin">Admins</Link></li>  }
 
                      
-                     <li><button className="dropdown-item" style={{all : "unset" , color : "#fff" , cursor : "pointer"}} onClick={() => {
+                     <li><button className="btnout" onClick={() => {
                         Logout(() => {
                            navigate("/login")
                         })
