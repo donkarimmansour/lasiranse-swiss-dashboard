@@ -1,0 +1,17 @@
+.footer{
+    position: relative;
+    bottom: 0;
+    text-align: center ;
+    background:#cff6dd;
+    padding: 18px;
+}
+.footer .spanfooter{
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.3);
+}
+.footer .namefooter{
+    font-size: 16px;
+    font-weight: 700;
+    color :#2196f3
+}

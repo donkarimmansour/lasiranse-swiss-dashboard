@@ -178,11 +178,12 @@ aside .menu li .sub-menu .btnout {
   transition: all 0.3s ease;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
 aside .menu li .sub-menu a:hover {
   opacity: 1;
-  font-size: x-large;
+  font-size: 20px;
   color: #0a0000;
 }
 
@@ -300,7 +301,9 @@ aside ~ main {
   left: 260px;
   width: calc(100% - 260px);
 }
-
+aside ~ main {
+  margin-bottom: 100px;
+}
 /* header */
 header {
   position: relative;

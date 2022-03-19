@@ -42,7 +42,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (successMsg === "updated") {
-            alert("updated")
+            alert("mise à jour modifie")
         }
     }, [successMsg])
 
@@ -68,9 +68,9 @@ const Profile = () => {
 
 
     const Validator = yup.object().shape({
-        firstname: yup.string().required("firstname field is required"),
-        lastname: yup.string().required("lastname field is required"),
-        email: yup.string().required("email field is required").email("email must be email"),
+        firstname: yup.string().required("le champ prénom est obligatoire"),
+        lastname: yup.string().required("le champ nom de famille est obligatoire"),
+        email: yup.string().required("le champ email est obligatoire").email("l'e-mail doit être un e-mail"),
     })
 
 
@@ -96,7 +96,7 @@ const Profile = () => {
 
             {loading && loader()}
 
-            <div className="title">Profile</div>
+            <div className="title">Profil</div>
 
             <div className="image-profile">
                 <div>
@@ -123,26 +123,26 @@ const Profile = () => {
                                     <div className="user-details">
 
                                         <div className="input-box">
-                                            <span className="details">first name</span>
-                                            <Field type="text" name="firstname" placeholder="Enter your firstname" required="" />
+                                            <span className="details">Prénom</span>
+                                            <Field type="text" name="firstname" placeholder="Entrez votre prénom" required="" />
                                             <small className="input-error" style={{ display: errors.firstname ? "block" : "none" }} >{touched.firstname && errors.firstname}</small>
                                         </div>
 
                                         <div className="input-box">
-                                            <span className="details">last name</span>
-                                            <Field type="text" name="lastname" placeholder="Enter your lastname" required="" />
+                                            <span className="details">Nom</span>
+                                            <Field type="text" name="lastname" placeholder="Entrez votre nom" required="" />
                                             <small className="input-error" style={{ display: errors.lastname ? "block" : "none" }} >{touched.lastname && errors.lastname}</small>
                                         </div>
 
                                        <div className="input-box">
-                                            <span className="details">Email Address</span>
-                                            <Field type="email" name="email" placeholder="Enter your email" required="" />
+                                            <span className="details">Adresse e-mail</span>
+                                            <Field type="email" name="email" placeholder="Entrer votre Email" required="" />
                                             <small className="input-error" style={{ display: errors.email ? "block" : "none" }} >{touched.email && errors.email}</small>
                                         </div>
 
                                         <div className="input-box">
-                                            <span className="details">password</span>
-                                            <Field type="password" name="password" placeholder="Enter your password" required="" />
+                                            <span className="details">le mot de passe</span>
+                                            <Field type="password" name="password" placeholder="Tapez votre mot de passe" required="" />
                                         </div>
                                     
 
@@ -170,7 +170,7 @@ const Profile = () => {
                                     </div>
 
                                     <div className="button">
-                                        <input disabled={(!isValid || loading)} type="submit" value="update" />
+                                        <input disabled={(!isValid || loading)} type="submit" value="modifier" />
                                     </div>
 
                                 </Form>

@@ -84,11 +84,11 @@ const AdminProfile = () => {
 
     useEffect(() => {
         if (successMsg === "updated") {
-            alert("updated")
+            alert("mise à jour modifie")
             // navigate(-1)
         }
         else if (successMsg === "created") {
-            alert("created")
+            alert("mise à jour créé")
             navigate(-1)
         }
     }, [successMsg])
@@ -131,33 +131,33 @@ const AdminProfile = () => {
 
 
     const Validator = yup.object().shape({
-        firstname: yup.string().required("firstname field is required"),
-        lastname: yup.string().required("lastname field is required"),
-        email: yup.string().required("email field is required").email("email must be email"),
-        rule: yup.string().required("rule field is required"),
-        isAccountSuspended: yup.string().required("isAccountSuspended field is required"),
-        isAccountActivated: yup.string().required("isAccountActivated field is required"),
+        firstname: yup.string().required("le champ prénom est obligatoire"),
+        lastname: yup.string().required("le champ nom de famille est obligatoire"),
+        email: yup.string().required("le champ email est obligatoire").email("l'e-mail doit être un e-mail"),
+        rule: yup.string().required("le champ de la règle est obligatoire"),
+        isAccountSuspended: yup.string().required("Le champ isAccountSuspended est obligatoire"),
+        isAccountActivated: yup.string().required("Le champ isAccountActivated est obligatoire"),
 
         // password: yup.string()
         //     .test("password", "password field is required"
         //         , function (value) { return value == "" && params.id != "new" }),
 
         endAt: yup.date()
-            .test("endAt", "endAt field is required"
+            .test("endAt", "le champ endAt est obligatoire"
                 , function (value) { return value != "" || this.parent.isAccountActivated == "no-ac" }),
 
         startAt: yup.date()
-            .test("startAt", "startAt field is required"
+            .test("startAt", "Le champ startAt est obligatoire"
                 , function (value) { return value != "" || this.parent.isAccountActivated == "no-ac" })
-            .test("startAt", "The start date must be before the end date"
+            .test("startAt", "La date de début doit être antérieure à la date de fin"
                 , function (value) {
                     return (new Date(value) < new Date(this.parent.endAt) || (params.id != "new" && new Date(value)) >= new Date()) || this.parent.isAccountActivated == "no-ac"
                 }),
 
-        loan: yup.number().test("loan", "The loan must be a valid number greater than 0"
+        loan: yup.number().test("loan", "Le prêt doit être Le champ isAccountActivated est obligatoireêtre un nombre valide supérieur à 0"
             , function (value) { return value >= 0 || this.parent.isAccountActivated == "no-ac" }),
 
-        quantity: yup.number().test("quantity", "The quantity must be a valid number greater than 1"
+        quantity: yup.number().test("quantity", "La quantité doit être un nombre valide supérieur à 1"
             , function (value) { return value > 0 || this.parent.isAccountActivated == "no-ac" }),
     })
 
@@ -182,7 +182,7 @@ const AdminProfile = () => {
 
                 {loading && loader()}
 
-                <div className="title">Profile</div>
+                <div className="title">Profil</div>
 
 
                 {params.id != "new" &&
@@ -216,27 +216,27 @@ const AdminProfile = () => {
                                         <div className="user-details">
 
                                             <div className="input-box">
-                                                <span className="details">first name</span>
-                                                <Field type="text" name="firstname" placeholder="Enter your firstname" required="" />
+                                                <span className="details">Prénom</span>
+                                                <Field type="text" name="firstname" placeholder="Entrez votre prénom" required="" />
                                                 <small className="input-error" style={{ display: errors.firstname ? "block" : "none" }} >{touched.firstname && errors.firstname}</small>
                                             </div>
 
                                             <div className="input-box">
-                                                <span className="details">last name</span>
-                                                <Field type="text" name="lastname" placeholder="Enter your lastname" required="" />
+                                                <span className="details">Nom</span>
+                                                <Field type="text" name="lastname" placeholder="Entrez votre nom de famille" required="" />
                                                 <small className="input-error" style={{ display: errors.lastname ? "block" : "none" }} >{touched.lastname && errors.lastname}</small>
                                             </div>
 
                                             <div className="input-box">
-                                                <span className="details">Email Address</span>
-                                                <Field type="email" name="email" placeholder="Enter your email" required="" />
+                                                <span className="details">Adresse e-mail</span>
+                                                <Field type="email" name="email" placeholder="Entrer votre Email" required="" />
                                                 <small className="input-error" style={{ display: errors.email ? "block" : "none" }} >{touched.email && errors.email}</small>
                                             </div>
 
 
                                             <div className="input-box">
-                                                <span className="details">password</span>
-                                                <Field type="password" name="password" placeholder="Enter your password" required="" />
+                                                <span className="details">le mot de passe</span>
+                                                <Field type="password" name="password" placeholder="Tapez votre mot de passe" required="" />
                                                 <small className="input-error" style={{ display: errors.password ? "block" : "none" }} >{touched.password && errors.password}</small>
                                             </div>
 
@@ -245,26 +245,26 @@ const AdminProfile = () => {
                                                 <Fragment>
 
                                                     <div className="input-box">
-                                                        <span className="details">Start Att</span>
-                                                        <Field type="date" name="startAt" placeholder="Enter your date" required="" />
+                                                        <span className="details">Démarrage Att</span>
+                                                        <Field type="date" name="startAt" placeholder="Entrez votre date" required="" />
                                                         <small className="input-error" style={{ display: errors.startAt ? "block" : "none" }} >{touched.startAt && errors.startAt}</small>
                                                     </div>
 
                                                     <div className="input-box">
-                                                        <span className="details">End Att</span>
-                                                        <Field type="date" name="endAt" placeholder="Enter your date" required="" />
+                                                        <span className="details">Att de fin</span>
+                                                        <Field type="date" name="endAt" placeholder="Entrez votre date" required="" />
                                                         <small className="input-error" style={{ display: errors.endAt ? "block" : "none" }} >{touched.endAt && errors.endAt}</small>
                                                     </div>
 
                                                     <div className="input-box">
-                                                        <span className="details">Quantity</span>
-                                                        <Field type="number" name="quantity" placeholder="Enter your quantity" required="" />
+                                                        <span className="details">Quantité</span>
+                                                        <Field type="number" name="quantity" placeholder="Entrez votre quantité" required="" />
                                                         <small className="input-error" style={{ display: errors.quantity ? "block" : "none" }} >{touched.quantity && errors.quantity}</small>
                                                     </div>
 
                                                     <div className="input-box">
-                                                        <span className="details">Loan</span>
-                                                        <Field type="number" name="loan" placeholder="Enter your loan" required="" />
+                                                        <span className="details">Prêt(e)</span>
+                                                        <Field type="number" name="loan" placeholder="Entrez votre prêt(e)" required="" />
                                                         <small className="input-error" style={{ display: errors.loan ? "block" : "none" }} >{touched.loan && errors.loan}</small>
                                                     </div>
 
@@ -275,7 +275,7 @@ const AdminProfile = () => {
 
 
                                             <div className="rule-details">
-                                                <span className="rule-title">Rule</span>
+                                                <span className="rule-title">Régner</span>
                                                 <div className="rules">
                                                     {
                                                         ["admin", "superAdmin"].map((rule, ri) => {

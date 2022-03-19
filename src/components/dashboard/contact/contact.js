@@ -96,7 +96,7 @@ const Contacts = () => {
     }
 
     const deleteContact = (id) => {
-        const conf = window.confirm("Are you sure")
+        const conf = window.confirm("Êtes-vous sûr")
         if (conf) {
             dispatch(delete_contact(id, authorization))
         }
@@ -130,7 +130,7 @@ const Contacts = () => {
 
         }).catch(err => {
             console.log("get contacts api err ", err);
-            alert("something went wrong please try again")
+            alert("Une erreur s'est produite. Veuillez réessayer")
             dispatch({ type: STOP_LOADING })
         })
     }
@@ -144,18 +144,19 @@ const Contacts = () => {
 
             <div className="pupup" style={{ display: "block" }} >
                 <h5>Contact</h5>
-                <p>fullname : {Contact.fullname}</p>
-                <p>email : {Contact.email}</p>
-                <p>phone : {Contact.phone}</p>
-                <p>naissance : {Contact.naissance}</p>
-                <p>franchise : {Contact.franchise}</p>
-                <p>fullname : {Contact.fullname}</p>
-                <p>npa : {Contact.npa}</p>
+                <p>Nom et prénom : {Contact.fullname}</p>
+                <p>E-mail : {Contact.email}</p>
+                <p>Téléphoner : {Contact.phone}</p>
+                <p>Naissance : {Contact.naissance}</p>
+                <p>Franchise : {Contact.franchise}</p>
+                {/* <p>Nom et prénom : {Contact.fullname}</p> */}
+                <p>Npa : {Contact.npa}</p>
                 <button onClick={() => {
                     setshowDel(false)
                 }
-                } >OK</button>
-            </div></Fragment>
+                } >Bien</button>
+            </div>
+            </Fragment>
 
 
 
@@ -235,7 +236,7 @@ const Contacts = () => {
 
                 {all_contacts && Contacts && Contacts.length > 0 &&
                     <div className="export-data">
-                        <button onClick={exportData}>Export Data</button>
+                        <button onClick={exportData}>Exporter des données</button>
 
                     </div>
                 }
@@ -246,14 +247,14 @@ const Contacts = () => {
                         <table className="table table-responsive-xl">
                             <thead>
                                 <tr>
-                                    <th>Fullname and Email</th>
-                                    <th>phone</th>
+                                    <th>Nom complet et e-mail</th>
+                                    <th>téléphoner</th>
                                     <th>Naissance</th>
                                     <th>Franchise</th>
-                                    <th>NPA</th>
-                                    <th>{user.rule === "admin" ? "viewed" : "Used"}</th>
-                                    {user.rule !== "admin" && <th>user</th>}
-                                    <th>type</th>
+                                    <th>Npa</th>
+                                    <th>{user.rule === "admin" ? "Vue" : "Utilisée"}</th>
+                                    {user.rule !== "admin" && <th>utilisateur</th>}
+                                    <th>Type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -277,7 +278,7 @@ const Contacts = () => {
                                                 <td>{extractDesk(contact.franchise, 10)}</td>
                                                 <td>{extractDesk(contact.npa, 10)}</td>
 
-                                                <td className="status"><span className={user.rule == "admin" ? contact.viewed ? "active" : "waiting" : contact.used ? "active" : "waiting"}>{user.rule == "admin" ? contact.viewed ? "Active" : "No" : contact.used ? "Active" : "No"}</span></td>
+                                                <td className="status"><span className={user.rule == "admin" ? contact.viewed ? "active" : "waiting" : contact.used ? "active" : "waiting"}>{user.rule == "admin" ? contact.viewed ? "Active" : "Non" : contact.used ? "Active" : "Non"}</span></td>
 
 
                                                 {user.rule !== "admin" && <td>
@@ -286,7 +287,7 @@ const Contacts = () => {
                                                     {!contact.used && "..."}
                                                 </td>}
 
-                                                <td>{contact.type}</td>
+                                                <td>{contact.type === "demo" ? "démo" : "production"}</td>
 
                                                 <td>
 

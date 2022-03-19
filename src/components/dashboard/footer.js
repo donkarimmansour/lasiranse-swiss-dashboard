@@ -1,27 +1,42 @@
-import { Field, Form, Formik } from "formik";
-import React, { Fragment, useEffect, useRef, useState } from "react"
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from "react-redux";
-import { set_subscribe } from "../redux/actions/subscribe";
-import { loader } from "../shared/elements";
-import * as yup from "yup";
-import { get_count, get_random_product } from "../redux/actions/products";
-import { ImageLink } from "../shared/funs";
-import myClassname from "classnames"; 
-import { CLEAR_MESSAGE } from "../redux/constans/message"
-import { Link } from "react-router-dom"
-
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { getLocalStorage } from "../../shared/localStorage";
+import "../../styles/footer.css";
 const Footer = () => {
-    const { t } = useTranslation();
-
-
-
-    return (
-        <Fragment>
-
-        </Fragment>
-
-    );
-}
+  const user = localStorage.getItem("user")
+    ? getLocalStorage("user")
+    : [{ _id: "" }];
+  return (
+    <Fragment>
+      <footer className="container footer">
+        <div>
+          <p>
+            <span className="spanfooter">@ par :</span>
+            {user.rule === "admin" && user.isAccountActivated && (
+                <>
+                <span>les développeurs:</span>
+                <a href="mailto:deve.ccm@gmail.com" className="titlefooter">
+                &nbsp;<span className="namefooter">Karim mansour</span>
+                <span className="spanfooter">&nbsp;&&&nbsp;</span>
+                <span className="namefooter">Amine Albouhaji</span>
+              </a>
+                </>
+          
+            )}
+            {!user.isAccountActivated && 
+                <a className="titlefooter">
+                  &nbsp;<span className="namefooter">Compare prime</span>
+                </a>
+              }
+                 {user.rule !== "admin" && 
+                <a className="titlefooter">
+                  &nbsp;<span className="namefooter">Compare prime</span>
+                </a>
+                 }
+          </p>
+        </div>
+      </footer>
+    </Fragment>
+  );
+};
 
 export default Footer;

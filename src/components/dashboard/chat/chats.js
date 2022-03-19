@@ -117,8 +117,8 @@ const Chats = () => {
             }
 
         }).catch(err => {
-            console.log("get contacts api err ", err);
-            alert("something went wrong please try again")
+            console.log("obtenir des erreurs d'api de contacts ", err);
+            alert("Une erreur s'est produite. Veuillez réessayer")
             dispatch({ type: STOP_LOADING })
         })
     }
@@ -198,8 +198,8 @@ const Chats = () => {
                 <div className="export-data">
 
                     {chats && Chats && Chats.length > 0 &&
-                        <button onClick={exportData}>Export Data</button>
-                    } <button onClick={addChat}>add message</button></div>
+                        <button onClick={exportData}>Exporter des données</button>
+                    } <button onClick={addChat}>Ajouter un message</button></div>
 
                 {chats && Chats && Chats.length > 0 &&
 
@@ -207,11 +207,11 @@ const Chats = () => {
                         <table className="table table-responsive-xl">
                             <thead>
                                 <tr>
-                                    <th>Fullname</th>
-                                    <th>Email</th>
+                                    <th>Nom et prénom</th>
+                                    <th>E-mail</th>
                                     <th>Message</th>
-                                    <th>Replied</th>
-                                    <th>Reply</th>
+                                    <th>A répondu</th>
+                                    <th>Répondre</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
