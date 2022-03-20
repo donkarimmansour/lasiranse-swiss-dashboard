@@ -30,6 +30,7 @@ const ApiEndpoints = {
     delete: `/delete`,  
     reply: `/reply`,
     count: `/count`,
+    view: `/view`,
   },
   FileEndpoints: {
     route: `${Host.PREFIX}/file`,

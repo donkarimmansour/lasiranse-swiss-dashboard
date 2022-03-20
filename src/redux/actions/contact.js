@@ -1,5 +1,5 @@
 
-import { COUNT , UPDATE_CONTACT, GET_CONTACTS , COUNT_NAV , DELETE , VIEW, GET_ALl_CONTACTS, VIEW_ALL, COUNT_PAG } from "../constans/contact"
+import { COUNT , UPDATE_CONTACT, GET_CONTACTS , COUNT_NAV , DELETE , VIEW, GET_ALl_CONTACTS, VIEW_ALL, COUNT_PAG, DELETE_ALL } from "../constans/contact"
 import { SHOW_ERROR_MESSAGE, CLEAR_MESSAGE } from "../constans/message"
 import { START_LOADING, STOP_LOADING } from "../constans/loading"
 import { Count, Delete, List, Update, View } from "../../services/contact"
@@ -57,10 +57,19 @@ const get_contact_Count_nav = (filter , con) => async dispatch => {
     dispatch({ type: START_LOADING })
     Count(filter , con).then(({ data }) => {
 
-            dispatch({ type: STOP_LOADING })
+           
+            
+    if (!data.err) {
+        dispatch({ type: STOP_LOADING })
             dispatch({
                 type: COUNT_NAV , payload : data.msg
             })
+    } else {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_NAV , payload : -1
+        })
+    }
 
     }).catch(err => {
         console.log("get orders api err ", err);
@@ -102,6 +111,29 @@ const delete_contact = (id, con) => async dispatch => {
             dispatch({ type: STOP_LOADING })
             dispatch({
                 type: DELETE , payload : id
+            })
+            dispatch({ type: CLEAR_MESSAGE })
+        } else {
+            dispatch({ type: STOP_LOADING })
+            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
+        }
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+
+    })
+}
+
+const delete_all_contact = (id, con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+
+    Delete(id, con).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            dispatch({
+                type: DELETE_ALL , payload : id
             })
             dispatch({ type: CLEAR_MESSAGE })
         } else {
@@ -215,6 +247,6 @@ const get_all_contacts = (filter , con) => async dispatch => {
 export {
    get_contact_Count , get_contact , get_contact_Count_nav , view_contact ,
     delete_contact , get_all_contacts , get_contact_Count_pag , 
-    view_all_contact , update_contact
+    view_all_contact , update_contact , delete_all_contact
 }
 

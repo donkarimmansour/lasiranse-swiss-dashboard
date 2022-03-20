@@ -1,4 +1,4 @@
-import { COUNT, GET_CONTACTS, COUNT_NAV, VIEW, DELETE, COUNT_PAG, GET_ALl_CONTACTS, VIEW_ALL } from "../constans/contact"
+import { COUNT, GET_CONTACTS, COUNT_NAV, VIEW, DELETE, COUNT_PAG, GET_ALl_CONTACTS, VIEW_ALL, DELETE_ALL } from "../constans/contact"
 
 const INITIAL_STATE = {
     count: 0,
@@ -74,6 +74,15 @@ const contactReducer = (state = INITIAL_STATE, action) => {
                 contacts: state.contacts ,
                 count: state.count - 1
             }
+            case DELETE_ALL:
+                const indexAL = state.all_contacts.findIndex(c => c._id === action.payload)
+                state.all_contacts.splice(indexAL, 1)
+
+                return {
+                    ...state,
+                    all_contacts: state.all_contacts ,
+                    count_pag: state.count_pag - 1
+                }
         default: return state
     }
 }

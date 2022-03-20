@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import "../../../styles/main.css";
 import { CLEAR_MESSAGE } from "../../../redux/constans/message";
-import { delete_contact, get_all_contacts, get_contact_Count_pag, update_contact, view_all_contact } from "../../../redux/actions/contact";
+import { delete_all_contact, get_all_contacts, get_contact_Count_pag, update_contact, view_all_contact } from "../../../redux/actions/contact";
 import { loader } from "../../../shared/elements";
 import { convertJsonToExcel, extractDesk } from "../../../shared/funs";
 import myClassNames from 'classnames';
@@ -66,7 +66,6 @@ const Contacts = () => {
     useEffect(() => {
         setContacts(all_contacts)
         setCount(count_pag)
-        console.log(all_contacts);
     }, [count_pag, all_contacts])
 
 
@@ -98,7 +97,7 @@ const Contacts = () => {
     const deleteContact = (id) => {
         const conf = window.confirm("Êtes-vous sûr")
         if (conf) {
-            dispatch(delete_contact(id, authorization))
+            dispatch(delete_all_contact(id, authorization))
         }
     }
 
@@ -225,7 +224,6 @@ const Contacts = () => {
     }
 
 
-
     return (
 
         <Fragment>
@@ -281,11 +279,16 @@ const Contacts = () => {
                                                 <td className="status"><span className={user.rule == "admin" ? contact.viewed ? "active" : "waiting" : contact.used ? "active" : "waiting"}>{user.rule == "admin" ? contact.viewed ? "Active" : "Non" : contact.used ? "Active" : "Non"}</span></td>
 
 
-                                                {user.rule !== "admin" && <td>
-                                                    {contact.used && <Link to={`/adminprofile/${contact.user_id._id}`}>
-                                                        {`${contact.user_id.firstname} ${contact.user_id.lastname}`}</Link>}
+                                                {user.rule !== "admin" && (
+                                                    <td>
+                                                    {contact.used && (
+                                                        <Link to={contact.user_id ? `/adminprofile/${contact.user_id._id}` : "#"}>
+                                                        {contact.user_id ? `${contact.user_id.firstname} ${contact.user_id.lastname}` : "del"}
+                                                        </Link>
+                                                    )}
                                                     {!contact.used && "..."}
-                                                </td>}
+                                                    </td>
+                                                )}
 
                                                 <td>{contact.type === "demo" ? "démo" : "production"}</td>
 

@@ -17,6 +17,9 @@ const Create = async (data , con) => {
   const Reply = async (id , data , con ) => {
     return  await  axios.put(`${Host.BACKEND}${ApiEndpoints.ChatEndpoints.route}${ApiEndpoints.ChatEndpoints.reply}/${id}` , data , { headers : {...config.headers , ...con } } )
   }
+  const View = async (id , con ) => {
+    return  await  axios.put(`${Host.BACKEND}${ApiEndpoints.ChatEndpoints.route}${ApiEndpoints.ChatEndpoints.view}/${id}`, {}, { headers : {...config.headers , ...con } } )
+  }
   const Delete = async (id , con ) => {
     return  await  axios.delete(`${Host.BACKEND}${ApiEndpoints.ChatEndpoints.route}${ApiEndpoints.ChatEndpoints.delete}/${id}`, { headers : {...config.headers , ...con } } )
   }
@@ -32,5 +35,5 @@ const Create = async (data , con) => {
 
   
 export {
-      Delete , Create , Count , List , Reply
+      Delete , Create , Count , List , Reply ,View
 }

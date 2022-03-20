@@ -199,8 +199,12 @@ const Chats = () => {
 
                     {chats && Chats && Chats.length > 0 &&
                         <button onClick={exportData}>Exporter des données</button>
-                    } <button onClick={addChat}>Ajouter un message</button></div>
-
+                    } 
+                    
+                    {user.rule === "admin" &&
+                       <button onClick={addChat}>Ajouter un message</button> }
+                   </div> 
+                   
                 {chats && Chats && Chats.length > 0 &&
 
                     <div className="table-wrap">
@@ -212,6 +216,7 @@ const Chats = () => {
                                     <th>Message</th>
                                     <th>A répondu</th>
                                     <th>Répondre</th>
+                                    {user.rule === "admin" && <th>Vue</th>}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -224,8 +229,14 @@ const Chats = () => {
                                                 <td>{`${chat.fullname}`}</td>
                                                 <td>{chat.email}</td>
                                                 <td>{extractDesk(chat.message, 50)}</td>
-                                                <td>{chat.replied ? "yes" : "no"}</td>
+
+                                                <td className="status"><span className={chat.replied ? "active" : "waiting"} >{chat.replied ? "Oui" : "Non"}</span> </td>
+
                                                 <td>{chat.replied ? extractDesk(chat.reply_message, 50) : "..."}</td>
+                                              
+                                                 {user.rule === "admin" && <td className="status"><span className={chat.viewed == true ? "active" : "waiting" }>Vue</span></td> }
+
+                                              
                                                 <td>
 
 

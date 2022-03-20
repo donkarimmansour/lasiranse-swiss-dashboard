@@ -345,7 +345,7 @@ header .notifications {
 }
 
 header .notifications span {
-  background-color: #f24444;
+  background-color: #2ac4ea;
   border-radius: 22px;
   padding: 0 5px;
   text-align: center;
@@ -353,6 +353,12 @@ header .notifications span {
   top: 0;
   right: 0;
   font-size: 12px;
+  color: white;
+}
+
+header .notifications:last-child span {
+  background-color: #5fe4a6;
+
 }
 header .notifications i {
   width: 24px;

@@ -1,8 +1,8 @@
 
-import { REPLY_CHAT, COUNT_CHAT, GET_CHAT, COUNT_CHAT_PAG, DELETE_CHAT, CREATE_CHAT , GET_SINGLE_CHAT} from "../constans/chat"
+import { REPLY_CHAT, COUNT_CHAT, GET_CHAT, COUNT_CHAT_PAG, DELETE_CHAT, CREATE_CHAT , GET_SINGLE_CHAT, COUNT_CHAT_NAV, VIEW_CHAT} from "../constans/chat"
 import { SHOW_ERROR_MESSAGE, SHOW_SUCCESS_MESSAGE, CLEAR_MESSAGE } from "../constans/message"
 import { START_LOADING, STOP_LOADING } from "../constans/loading"
-import {  Count, Delete, Create, List, Reply } from "../../services/chat"
+import {  Count, Delete, Create, List, Reply, View } from "../../services/chat"
 
 
 
@@ -19,6 +19,29 @@ const get_chats_Count_pag = (filter , con) => async dispatch => {
         dispatch({ type: STOP_LOADING })
         dispatch({
             type: COUNT_CHAT_PAG , payload : -1
+        })
+    }
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+
+    })
+}
+
+const get_chats_Count_nav = (filter , con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+    Count(filter , con).then(({ data }) => {
+
+    if (!data.err) {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_CHAT_NAV , payload : data.msg
+        })
+    } else {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_CHAT_NAV , payload : -1
         })
     }
 
@@ -163,6 +186,29 @@ const createChat = (values , authorization) => async dispatch => {
 }
 
 
+const view_chat = (id , con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+
+    View(id , con).then(({ data }) => {
+
+        if (!data.err) {
+            dispatch({ type: STOP_LOADING })
+            dispatch({
+                type: VIEW_CHAT , payload : id
+            })
+            dispatch({ type: CLEAR_MESSAGE})
+        } else {
+            dispatch({ type: STOP_LOADING })
+            dispatch({ type: SHOW_ERROR_MESSAGE, payload : data.msg })
+        }
+            
+        }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+        dispatch({ type: SHOW_ERROR_MESSAGE, payload: "something went wrong please try again" })
+
+    })
+}
 
 
 const delete_chat = (id, con) => async dispatch => {
@@ -192,8 +238,8 @@ const delete_chat = (id, con) => async dispatch => {
 
 
 export {
-     get_chats_Count , get_chats_Count_pag , get_all_chats ,
-      get_chat ,  delete_chat , createChat , ReplyChat
+     get_chats_Count , get_chats_Count_pag , get_all_chats , view_chat ,
+      get_chat ,  delete_chat , createChat , ReplyChat , get_chats_Count_nav
 }
 
  

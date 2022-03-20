@@ -1,8 +1,9 @@
-import { EDITE_ADMIN, COUNT_ADMIN, GET_ADMIN, COUNT_ADMIN_PAG, DELETE_ADMIN, CREATE_ADMIN , GET_SINGLE_ADMIN } from "../constans/user"
+import { EDITE_ADMIN, COUNT_ADMIN, GET_ADMIN, COUNT_ADMIN_PAG, DELETE_ADMIN, CREATE_ADMIN , GET_SINGLE_ADMIN, COUNT_ADMIN_NAV, SUSPENDED } from "../constans/user"
 
 const INITIAL_STATE = {
     count: 0,
     count_pag: 0,
+    count_nav: 0,
     admins: [],
     admin: {},
 }
@@ -15,6 +16,23 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 count: action.payload
             }
+            case COUNT_ADMIN_NAV:
+                return {
+                    ...state,
+                    count_nav: action.payload
+                }
+            case SUSPENDED:
+
+                if(action.payload.c == "inc"){
+                    state.count_nav += 1
+                }else{
+                    state.count_nav -= 1
+                }
+                return {
+                    ...state,
+                    count_nav: state.count_nav
+                }
+    
         case GET_ADMIN:
 
             return {
@@ -48,10 +66,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 admins: state.admins,
                 count: (state.count + 1),
                 count_pag: (state.count_pag + 1),
+                count_nav: action.payload.isAccountSuspended ? state.count_nav + 1 : state.count_nav,
             }
 
         case DELETE_ADMIN:
-            const indexD = state.admins.findIndex(c => c._id === action.payload)
+            const indexD = state.admins.findIndex(c => c._id === action.payload.id)
             state.admins.splice(indexD, 1)
 
             return {
@@ -59,10 +78,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 admins: state.admins,
                 count: (state.count - 1),
                 count_pag: (state.count_pag - 1),
+                count_nav: action.payload.isAccountSuspended ? state.count_nav - 1 : state.count_nav,
             }
         default: return state
 
-    }
+    } 
 }
 
 export default userReducer

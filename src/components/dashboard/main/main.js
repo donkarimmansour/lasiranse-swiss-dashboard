@@ -183,7 +183,7 @@ const Main = () => {
             } , minmax(100px , 1fr))`,
           }}
         >
-          {user.rule !== "admin" && UserN && contactN && (
+          {user.rule !== "admin"  && (
             <Link to="/admin">
               <div className="card">
                 <div>
@@ -197,7 +197,6 @@ const Main = () => {
             </Link>
           )}
 
-          {ContactN && contactN && (
             <Link to="/contacts">
               <div className="card">
                 <div>
@@ -209,9 +208,8 @@ const Main = () => {
                 </div>
               </div>
             </Link>
-          )}
+          
 
-          {ChatN && chatN && (
             <Link to="/chats">
               <div className="card">
                 <div>
@@ -223,7 +221,6 @@ const Main = () => {
                 </div>
               </div>
             </Link>
-          )}
         </div>
 
         {contacts && Contacts && (
@@ -285,8 +282,8 @@ const Main = () => {
                       {user.rule !== "admin" && (
                         <td>
                           {contact.used && (
-                            <Link to={`/adminprofile/${contact.user_id._id}`}>
-                              {`${contact.user_id.firstname} ${contact.user_id.lastname}`}
+                            <Link to={contact.user_id ? `/adminprofile/${contact.user_id._id}` : "#"}>
+                              {contact.user_id ? `${contact.user_id.firstname} ${contact.user_id.lastname}` : "del"}
                             </Link>
                           )}
                           {!contact.used && "..."}

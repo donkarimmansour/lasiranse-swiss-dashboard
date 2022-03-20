@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLEAR_MESSAGE } from "../../../redux/constans/message";
 import { getCookie } from "../../../shared/cookie";
 import { loader } from "../../../shared/elements";
-import { ImageLink } from "../../../shared/funs";
 import { getLocalStorage } from "../../../shared/localStorage";
 import "../../../styles/profile.css";
 import {
   get_chat,
   ReplyChat as replyChat,
   createChat,
+  view_chat,
 } from "../../../redux/actions/chat";
 
 const Chat = () => {
@@ -24,6 +24,8 @@ const Chat = () => {
 
   useEffect(() => {
     dispatch({ type: CLEAR_MESSAGE });
+
+    dispatch(get_chat({ filter: `{"_id" : "${params.id}"}` }, authorization));
 
     if (!isAuthentication()) {
       navigate("/login");
@@ -36,13 +38,10 @@ const Chat = () => {
         email: "",
         replied: false,
         reply_message: "...",
+        reply_message: "",
       });
     }
   }, []);
-
-  useEffect(() => {
-    dispatch(get_chat({ filter: `{"_id" : "${params.id}"}` }, authorization));
-  }, [dispatch]);
 
   useEffect(() => {
     if (params.id !== "new" && chat && chat.message) {
@@ -52,8 +51,14 @@ const Chat = () => {
         email: chat.email || "",
         replied: chat.replied || false,
         reply_message: chat.reply_message || "...",
+        id: chat.user_id || "...",
       });
     }
+
+    if(user._id === chat.user_id && chat.viewed === false && chat.replied === true){
+      dispatch(view_chat(params.id, authorization))
+    }
+    
   }, [chat]);
 
   const { loading } = useSelector((state) => state.loading);
@@ -76,6 +81,7 @@ const Chat = () => {
     email: "",
     replied: false,
     reply_message: "...",
+    id: "",
   });
 
   const authorization = isAuthentication()
@@ -91,7 +97,7 @@ const Chat = () => {
     if (params.id == "new") {
       dispatch(createChat(newVals, authorization));
     } else {
-      dispatch(replyChat(params.id, newVals, authorization));
+      dispatch(replyChat(params.id, newVals, authorization)); 
     }
   };
 
@@ -108,7 +114,7 @@ const Chat = () => {
         "message de réponse",
         "le champ du message de réponse est obligatoire",
         function (value) {
-          return (value != "..." && value.length > 1) || params.id == "new";
+          return (value != "..." && value && value.length > 1) || params.id == "new";
         }
       ),
   });
@@ -134,7 +140,7 @@ const Chat = () => {
                   <div className="user-details">
                     <div className="input-box">
                       <span className="details">nom et prénom</span>
-                      <Field
+                      <Field readOnly={params && params.id !== "new"}
                         type="text"
                         name="fullname"
                         placeholder="Entrez votre nom complet"
@@ -150,7 +156,7 @@ const Chat = () => {
 
                     <div className="input-box">
                       <span className="details">Adresse e-mail</span>
-                      <Field
+                      <Field readOnly={params && params.id !== "new"}
                         type="email"
                         name="email"
                         placeholder="Entrer votre Email"
@@ -166,7 +172,7 @@ const Chat = () => {
 
                     <div className="input-box textarea">
                       <span className="details">Message</span>
-                      <Field
+                      <Field readOnly={params && params.id !== "new"}
                         as="textarea"
                         rows="10"
                         cols="10"
@@ -182,10 +188,10 @@ const Chat = () => {
                       </small>
                     </div>
 
-                    {params && params.id != "new" && (
+                    {( (params && params.id !== "new" && values && values.replied === true) || (user.rule !== "admin" && values && values.replied !== true)) && (
                       <div className="input-box textarea">
                         <span className="details">message de réponse</span>
-                        <Field
+                        <Field readOnly={params && params.id !== "new" && values && values.replied === true}
                           as="textarea"
                           rows="10"
                           cols="10"
@@ -212,16 +218,16 @@ const Chat = () => {
                       )}
                     </div>
 
-                    {(params.id == "new" && user.rule != "admin") ||
-                      (values && values.replied !== true && (
+
+                    {( (values && values.replied !== true && user.rule !== "admin") || (values && values.id !== user._id && values.replied !== true)) &&  (
                         <div className="button">
                           <input
-                            disabled={!isValid || loading}
+                            disabled={loading}
                             type="submit"
                             value={params.id == "new" ? "send" : "reply"}
                           />
                         </div>
-                      ))}
+                      )}
                   </div>
                 </Form>
               )}

@@ -233,10 +233,10 @@ const Admin = () => {
     convertJsonToExcel("admin", [admin]);
   };
 
-  const deleteAdmin = (id) => {
+  const deleteAdmin = (id , isAccountSuspended) => {
     const conf = window.confirm("Êtes-vous sûr??");
     if (conf) {
-      dispatch(delete_admin(id, authorization));
+      dispatch(delete_admin(id, authorization , isAccountSuspended));
     }
   };
 
@@ -272,7 +272,7 @@ const Admin = () => {
         {admins && Admins && Admins.length > 0 && (
           <div className="export-data">
             <button onClick={exportData}>Exporter des données</button>
-            <button onClick={addUser}>Ajouter un message</button>
+            <button onClick={addUser}>ajouter un administrateur</button>
           </div>
         )}
 
@@ -292,7 +292,6 @@ const Admin = () => {
               </thead>
               <tbody>
                 {Admins.map((admin, ci) => {
-                  console.log(admin);
                   return (
                     <tr key={ci}>
                       <td className="d-flex align-items-center">
@@ -378,7 +377,7 @@ const Admin = () => {
                           type="button"
                           className="delete"
                           onClick={() => {
-                            deleteAdmin(admin._id);
+                            deleteAdmin(admin._id, admin.isAccountSuspended);
                           }}
                         >
                           <span aria-hidden="true">

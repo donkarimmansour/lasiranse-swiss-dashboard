@@ -1,5 +1,5 @@
 
-import { LOGIN , FORGOT , EDITE_ADMIN , IMAGE , COUNT_ADMIN ,GET_ADMIN , COUNT_ADMIN_PAG , DELETE_ADMIN , SIGNUP , CREATE_ADMIN, GET_SINGLE_ADMIN} from "../constans/user"
+import { SUSPENDED , LOGIN , FORGOT , EDITE_ADMIN , IMAGE , COUNT_ADMIN ,GET_ADMIN , COUNT_ADMIN_PAG , DELETE_ADMIN , SIGNUP , CREATE_ADMIN, GET_SINGLE_ADMIN, COUNT_ADMIN_NAV} from "../constans/user"
 import { SHOW_ERROR_MESSAGE, SHOW_SUCCESS_MESSAGE, CLEAR_MESSAGE } from "../constans/message"
 import { START_LOADING, STOP_LOADING } from "../constans/loading"
 import { Image, EditAccount, Count, Delete, Create, List, updateAccount } from "../../services/user"
@@ -22,6 +22,29 @@ const get_admin_Count_pag = (filter , con) => async dispatch => {
         dispatch({ type: STOP_LOADING })
         dispatch({
             type: COUNT_ADMIN_PAG , payload : -1
+        })
+    }
+
+    }).catch(err => {
+        console.log("get orders api err ", err);
+        dispatch({ type: STOP_LOADING })
+
+    })
+}
+
+const get_admin_Count_nav = (filter , con) => async dispatch => {
+    dispatch({ type: START_LOADING })
+    Count(filter , con).then(({ data }) => {
+
+    if (!data.err) {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_ADMIN_NAV , payload : data.msg
+        })
+    } else {
+        dispatch({ type: STOP_LOADING })
+        dispatch({
+            type: COUNT_ADMIN_NAV , payload : -1
         })
     }
 
@@ -222,7 +245,7 @@ const EditAccounts = (userId , values , authorization) => async dispatch => {
     })
 }
 
-const updateAccounts = (userId , values , authorization) => async dispatch => {
+const updateAccounts = (userId , values , authorization , oldSus) => async dispatch => {
     dispatch({ type: START_LOADING })
 
     updateAccount(userId , values , authorization).then(({ data }) => {
@@ -234,7 +257,9 @@ const updateAccounts = (userId , values , authorization) => async dispatch => {
             })
             dispatch({ type: CLEAR_MESSAGE})
             dispatch({ type: SHOW_SUCCESS_MESSAGE, payload : "updated" })
-            
+          if(oldSus !== "eq") {
+            dispatch({ type: SUSPENDED , payload : {c : oldSus}})
+          }           
         } else {
             
             dispatch({ type: STOP_LOADING })
@@ -283,7 +308,7 @@ const createAccount = ( values , authorization) => async dispatch => {
 
 
 
-const delete_admin = (id, con) => async dispatch => {
+const delete_admin = (id, con , isAccountSuspended) => async dispatch => {
     dispatch({ type: START_LOADING })
 
     Delete(id, con).then(({ data }) => {
@@ -291,7 +316,7 @@ const delete_admin = (id, con) => async dispatch => {
         if (!data.err) {
             dispatch({ type: STOP_LOADING })
             dispatch({
-                type: DELETE_ADMIN , payload : id
+                type: DELETE_ADMIN , payload : {id , isAccountSuspended}
             })
             dispatch({ type: CLEAR_MESSAGE })
         } else {
@@ -339,6 +364,6 @@ const updateImageProfile = (userId , values , authorization) => async dispatch =
 
 export {
      LoginAuths , ForgotAuths , updateImageProfile , EditAccounts , SignupAuths , updateAccounts , get_admin ,
-     get_admin_Count , get_admin_Count_pag , delete_admin  , get_all_admins , createAccount
+     get_admin_Count , get_admin_Count_pag , delete_admin  , get_all_admins , createAccount , get_admin_Count_nav
 }
 
